@@ -1,0 +1,46 @@
+// archivo: src/styles/_custom.scss
+$primary: #783200;
+$secondary: #010000;
+$success: #010000;
+$info: #ffd570; // Puedes cambiarlo si tienes un color diferente para info
+$warning: #ffd570; // Puedes cambiarlo si tienes un color diferente para warning
+$danger: #783200; // Puedes cambiarlo si tienes un color diferente para danger
+$light: #ffd570; // Puedes cambiarlo si tienes un color diferente para light
+$dark: #010000; // Puedes cambiarlo si tienes un color diferente para dark
+
+// Importa Bootstrap después de tus personalizaciones
+@import '~bootstrap/scss/bootstrap';
+.zoom {
+    transition: transform 0.3s ease; /* Animación suave */
+  }
+  
+  .zoom:hover {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño al pasar el mouse */
+  }
+
+  .trivago-title {
+    font-family: 'Poppins', sans-serif; /* Cambia la tipografía */
+    font-weight: 700; /* Grosor similar al logo */
+    font-size: 30px;  /* Ajusta el tamaño según sea necesario */
+  }
+  
+  .trivago-red {
+    color: #e60000; /* Rojo */
+  }
+  
+  .trivago-blue {
+    color: #0073e6; /* Azul */
+  }
+  
+  .trivago-orange {
+    color: #f68b1f; /* Naranja */
+  }
+  
+  .trivago-green {
+    color: #60b517; /* Verde */
+  }
+  
+  
+  
+
+  
