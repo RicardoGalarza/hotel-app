@@ -130,13 +130,12 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             <div className="mb-4 d-flex justify-content-center align-items-center">
                 <div className="input-group" style={{ width: '40%', position: 'relative' }}>
                     <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Buscar habitaciones..."
-                        value={terminoBusqueda}
-                        onChange={handleBusquedaChange}
-                        aria-haspopup="true"
-                    />
+                type="text"
+                placeholder="Buscar habitaciones..."
+                value={filtro}
+                onChange={(e) => setFiltro(e.target.value)}
+                className="form-control mb-3"
+            />
                     {sugerencias.length > 0 && (
                         <ul
                             className="dropdown-menu show"
