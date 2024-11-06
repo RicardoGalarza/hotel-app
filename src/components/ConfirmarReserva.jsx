@@ -1,10 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Alert, Button, Container } from 'react-bootstrap';
+import { Alert, Button, Container, Spinner } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 
 const ConfirmarReserva = () => {
-    const [mensaje, setMensaje] = useState('Verificando el estado de tu reserva...');
+    const [mensaje, setMensaje] = useState(
+        <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" variant="primary" />
+            <span className="ms-3">Verificando el estado de tu reserva...</span>
+        </div>
+    );
     const location = useLocation();
 
     useEffect(() => {
