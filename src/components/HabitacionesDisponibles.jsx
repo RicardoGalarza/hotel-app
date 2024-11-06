@@ -2,10 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+
+
 const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
     const [habitaciones, setHabitaciones] = useState([]);
-    const [categorias, setCategorias] = useState([]);
-    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -28,6 +28,12 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             }
         };
 
+        useEffect(() => {
+            if (habitacionId && actualizarCalendario) {
+                fetchFechasNoDisponibles();
+            }
+        }, [habitacionId, actualizarCalendario]);
+
         const fetchCategorias = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
@@ -37,10 +43,10 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                 console.log('Error al cargar categorías:', error);
             }
         };
-
+        
         useEffect(() => {
             fetchFechasNoDisponibles();
-        }, [habitacionId, actualizarCalendario, fetchFechasNoDisponibles]);
+        }, [habitacionId, actualizarCalendario]);
 
         const fetchFavoritos = async () => {
             try {
@@ -53,8 +59,8 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         };
 
         const habitacionesFiltradasPorCategoria = categoriaSeleccionada
-            ? habitacionesFiltradas.filter(hab => hab.categoria === categoriaSeleccionada)
-            : habitacionesFiltradas;
+            ? habitaciones.filter(hab => hab.categoria === categoriaSeleccionada)
+            : habitaciones;
 
         setHabitacionesMostradas(habitacionesFiltradasPorCategoria);
 
@@ -162,8 +168,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                         value={terminoBusqueda}
                         onChange={handleBusquedaChange}
                         aria-haspopup="true"
-                        role="combobox"
-                        aria-expanded={sugerencias.length > 0}
+
                     />
                     {sugerencias.length > 0 && (
                         <ul
