@@ -42,6 +42,8 @@ const HabitacionesDisponibles = () => {
         fetchFavoritos();
     }, []);
 
+    
+
     const fetchOpinionesPorHabitacion = async (habitaciones) => {
         try {
             const opinionesData = {};
@@ -140,6 +142,9 @@ const HabitacionesDisponibles = () => {
     const esFavorito = (habitacionId) => {
         return favoritos.some(fav => fav.habitacion.id === habitacionId);
     };
+
+    
+
 
     return (
         <div className="container py-5">
