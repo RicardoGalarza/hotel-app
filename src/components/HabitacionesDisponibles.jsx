@@ -3,95 +3,62 @@ import React, { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-
-const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
+const HabitacionesDisponibles = () => {
     const [habitaciones, setHabitaciones] = useState([]);
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const habitacionesPorPagina = 10;
     const [favoritos, setFavoritos] = useState([]);
-    const navigate = useNavigate();
-
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchHabitaciones = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
-                const data = response.data;
-                setHabitaciones(data);
-                fetchOpinionesPorHabitacion(data); // Cargar opiniones después de obtener habitaciones
+                setHabitaciones(response.data);
+                setHabitacionesMostradas(response.data);
+                fetchOpinionesPorHabitacion(response.data);
             } catch (error) {
-                console.log('Error al cargar habitaciones:', error);
+                console.error('Error al cargar habitaciones:', error);
             }
         };
-
-        useEffect(() => {
-            if (habitacionId && actualizarCalendario) {
-                fetchFechasNoDisponibles();
-            }
-        }, [habitacionId, actualizarCalendario]);
-
-        const fetchCategorias = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
-                const data = response.data;
-                setCategorias(data);
-            } catch (error) {
-                console.log('Error al cargar categorías:', error);
-            }
-        };
-        
-        useEffect(() => {
-            fetchFechasNoDisponibles();
-        }, [habitacionId, actualizarCalendario]);
 
         const fetchFavoritos = async () => {
             try {
                 const cuentaId = JSON.parse(localStorage.getItem('userId'));
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${cuentaId}`);
-                setFavoritos(response.data);
+                if (cuentaId) {
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${cuentaId}`);
+                    setFavoritos(response.data);
+                }
             } catch (error) {
-                console.log('Error al cargar favoritos:', error);
+                console.error('Error al cargar favoritos:', error);
             }
         };
 
-        const habitacionesFiltradasPorCategoria = categoriaSeleccionada
-            ? habitaciones.filter(hab => hab.categoria === categoriaSeleccionada)
-            : habitaciones;
-
-        setHabitacionesMostradas(habitacionesFiltradasPorCategoria);
-
         fetchHabitaciones();
-        fetchCategorias();
         fetchFavoritos();
-    }, [categoriaSeleccionada, habitacionesFiltradas]);
+    }, []);
 
-    // Función mejorada para cargar opiniones y calcular el promedio de estrellas
     const fetchOpinionesPorHabitacion = async (habitaciones) => {
         try {
             const opinionesData = {};
             for (const habitacion of habitaciones) {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/opiniones/habitacion/${habitacion.id}`);
                 const opiniones = response.data;
-
                 const totalEstrellas = opiniones.reduce((sum, opinion) => sum + opinion.estrellas, 0);
                 const promedioEstrellas = opiniones.length ? (totalEstrellas / opiniones.length).toFixed(1) : '0';
                 opinionesData[habitacion.id] = {
                     promedioEstrellas,
-                    cantidadOpiniones: opiniones.length
+                    cantidadOpiniones: opiniones.length,
                 };
             }
             setOpinionesPorHabitacion(opinionesData);
         } catch (error) {
-            console.log('Error al cargar opiniones:', error);
+            console.error('Error al cargar opiniones:', error);
         }
-    };
-
-    const formatearMiles = (numero) => {
-        return numero.toLocaleString('es-ES');
     };
 
     const handleBusquedaChange = async (e) => {
@@ -104,11 +71,11 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                 setSugerencias(response.data);
                 setHabitacionesMostradas(response.data);
             } catch (error) {
-                console.log('Error al buscar habitaciones:', error);
+                console.error('Error al buscar habitaciones:', error);
             }
         } else {
             setSugerencias([]);
-            setHabitacionesMostradas(habitacionesFiltradas);
+            setHabitacionesMostradas(habitaciones);
         }
     };
 
@@ -118,14 +85,14 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         setSugerencias([]);
     };
 
-    const indexOfLastHabitacion = currentPage * habitacionesPorPagina;
-    const indexOfFirstHabitacion = indexOfLastHabitacion - habitacionesPorPagina;
-
     const paginacion = (numeroPagina) => {
         setCurrentPage(numeroPagina);
     };
 
-    const totalPaginas = Math.ceil(habitacionesFiltradas.length / habitacionesPorPagina);
+    const totalPaginas = Math.ceil(habitacionesMostradas.length / habitacionesPorPagina);
+    const indexOfLastHabitacion = currentPage * habitacionesPorPagina;
+    const indexOfFirstHabitacion = indexOfLastHabitacion - habitacionesPorPagina;
+    const habitacionesPaginadas = habitacionesMostradas.slice(indexOfFirstHabitacion, indexOfLastHabitacion);
 
     const toggleFavorito = async (habitacionId) => {
         const cuentaId = parseInt(localStorage.getItem('userId'), 10);
@@ -138,7 +105,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                 if (esFavorito) {
                     await axios.delete(`${process.env.REACT_APP_API_URL}/favoritos`, {
                         data: { cuentaId, habitacionId },
-                        headers: { 'Content-Type': 'application/json' }
+                        headers: { 'Content-Type': 'application/json' },
                     });
                     setFavoritos(favoritos.filter(fav => fav.habitacion.id !== habitacionId));
                 } else {
@@ -147,7 +114,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                 }
             }
         } catch (error) {
-            console.log('Error al actualizar el estado del favorito:', error);
+            console.error('Error al actualizar el estado del favorito:', error);
         }
     };
 
@@ -168,7 +135,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                         value={terminoBusqueda}
                         onChange={handleBusquedaChange}
                         aria-haspopup="true"
-
                     />
                     {sugerencias.length > 0 && (
                         <ul
@@ -195,9 +161,9 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                 </div>
             </div>
 
-            {habitacionesMostradas.length > 0 ? (
+            {habitacionesPaginadas.length > 0 ? (
                 <div className="row">
-                    {habitacionesMostradas.map((habitacion) => {
+                    {habitacionesPaginadas.map((habitacion) => {
                         const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
 
                         return (
@@ -239,7 +205,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                                         </div>
                                         <div className="d-flex justify-content-between align-items-end">
                                             <strong style={{ fontSize: '1.4rem', color: '#333' }}>
-                                                ${formatearMiles(habitacion.precio)} CLP
+                                                ${habitacion.precio.toLocaleString('es-ES')} CLP
                                             </strong>
                                             <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
                                                 Ver Detalles
