@@ -20,20 +20,6 @@ const RegistrarHabitacion = () => {
     const [caracteristicas, setCaracteristicas] = useState([]);
     const [caracteristicasSeleccionadas, setCaracteristicasSeleccionadas] = useState([]);
 
-
-    const [habitaciones, setHabitaciones] = useState([]);
-    const [filtro, setFiltro] = useState('');
-
-
-    useEffect(() => {
-        // Cargar datos iniciales
-        obtenerCategorias();
-        obtenerCiudades();
-        obtenerPoliticas();
-        obtenerCaracteristicas();
-        listarHabitaciones();
-    }, []);
-
     useEffect(() => {
         // Obtener categorías
         axios.get(`${process.env.REACT_APP_API_URL}/categorias`)
@@ -135,16 +121,6 @@ const RegistrarHabitacion = () => {
             setAlerta({ mostrar: true, tipo: 'danger', mensaje: 'Ha ocurrido un error al registrar la habitación.' });
             setTimeout(() => setAlerta({ mostrar: false, tipo: '', mensaje: '' }), 3000);
         }
-    };
-
-    const listarHabitaciones = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`)
-            .then(response => {
-                setHabitaciones(response.data);
-            })
-            .catch(error => {
-                setAlerta({ mostrar: true, tipo: 'danger', mensaje: 'Error al listar las habitaciones.' });
-            });
     };
 
     return (

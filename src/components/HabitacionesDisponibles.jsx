@@ -4,6 +4,9 @@ import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
+    const [habitaciones, setHabitaciones] = useState([]);
+    
+    
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,10 +22,20 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
                 const data = response.data;
-               
+                setHabitaciones(data);
                 fetchOpinionesPorHabitacion(data); // Cargar opiniones después de obtener habitaciones
             } catch (error) {
                 console.log('Error al cargar habitaciones:', error);
+            }
+        };
+
+        const fetchCategorias = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
+                const data = response.data;
+                setCategorias(data);
+            } catch (error) {
+                console.log('Error al cargar categorías:', error);
             }
         };
 
@@ -38,8 +51,17 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
 
         // Ejecutar las funciones una vez al montar el componente
         fetchHabitaciones();
+        fetchCategorias();
         fetchFavoritos();
     }, []);
+
+    useEffect(() => {
+        const habitacionesFiltradasPorCategoria = categoriaSeleccionada
+            ? habitaciones.filter(hab => hab.categoria === categoriaSeleccionada)
+            : habitaciones;
+
+        setHabitacionesMostradas(habitacionesFiltradasPorCategoria);
+    }, [categoriaSeleccionada, habitaciones]);
 
     const fetchOpinionesPorHabitacion = async (habitaciones) => {
         try {
@@ -89,6 +111,8 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         setSugerencias([]);
     };
 
+    
+
     const paginacion = (numeroPagina) => {
         setCurrentPage(numeroPagina);
     };
@@ -130,12 +154,13 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             <div className="mb-4 d-flex justify-content-center align-items-center">
                 <div className="input-group" style={{ width: '40%', position: 'relative' }}>
                     <input
-                type="text"
-                placeholder="Buscar habitaciones..."
-                value={filtro}
-                onChange={(e) => setFiltro(e.target.value)}
-                className="form-control mb-3"
-            />
+                        type="text"
+                        className="form-control"
+                        placeholder="Buscar habitaciones..."
+                        value={terminoBusqueda}
+                        onChange={handleBusquedaChange}
+                        aria-haspopup="true"
+                    />
                     {sugerencias.length > 0 && (
                         <ul
                             className="dropdown-menu show"
