@@ -2,11 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
 const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
     const [habitaciones, setHabitaciones] = useState([]);
-    
-    
+    const [categorias, setCategorias] = useState([]);
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,6 +28,12 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             }
         };
 
+        useEffect(() => {
+            if (habitacionId && actualizarCalendario) {
+                fetchFechasNoDisponibles();
+            }
+        }, [habitacionId, actualizarCalendario]);
+
         const fetchCategorias = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
@@ -38,6 +43,10 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                 console.log('Error al cargar categorías:', error);
             }
         };
+        
+        useEffect(() => {
+            fetchFechasNoDisponibles();
+        }, [habitacionId, actualizarCalendario]);
 
         const fetchFavoritos = async () => {
             try {
@@ -49,20 +58,18 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             }
         };
 
-        // Ejecutar las funciones una vez al montar el componente
-        fetchHabitaciones();
-        fetchCategorias();
-        fetchFavoritos();
-    }, []);
-
-    useEffect(() => {
         const habitacionesFiltradasPorCategoria = categoriaSeleccionada
             ? habitaciones.filter(hab => hab.categoria === categoriaSeleccionada)
             : habitaciones;
 
         setHabitacionesMostradas(habitacionesFiltradasPorCategoria);
-    }, [categoriaSeleccionada, habitaciones]);
 
+        fetchHabitaciones();
+        fetchCategorias();
+        fetchFavoritos();
+    }, [categoriaSeleccionada, habitacionesFiltradas]);
+
+    // Función mejorada para cargar opiniones y calcular el promedio de estrellas
     const fetchOpinionesPorHabitacion = async (habitaciones) => {
         try {
             const opinionesData = {};
@@ -111,7 +118,8 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         setSugerencias([]);
     };
 
-    
+    const indexOfLastHabitacion = currentPage * habitacionesPorPagina;
+    const indexOfFirstHabitacion = indexOfLastHabitacion - habitacionesPorPagina;
 
     const paginacion = (numeroPagina) => {
         setCurrentPage(numeroPagina);
@@ -160,6 +168,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                         value={terminoBusqueda}
                         onChange={handleBusquedaChange}
                         aria-haspopup="true"
+
                     />
                     {sugerencias.length > 0 && (
                         <ul
