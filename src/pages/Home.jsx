@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,18 +14,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [sugerencias, setSugerencias] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (habitacionesFiltradas.length > 0) {
-            setHabitaciones(habitacionesFiltradas);
-            setHabitacionesMostradas(habitacionesFiltradas);
-        } else {
-            fetchHabitaciones(); // Llama a la función si no hay habitaciones filtradas proporcionadas
-        }
-
-        fetchFavoritos();
-    }, [habitacionesFiltradas]);
-
-    const fetchHabitaciones = async () => {
+    const fetchHabitaciones = useCallback(async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
             setHabitaciones(response.data);
@@ -34,7 +23,18 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
         } catch (error) {
             console.error('Error al cargar habitaciones:', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        if (habitacionesFiltradas.length > 0) {
+            setHabitaciones(habitacionesFiltradas);
+            setHabitacionesMostradas(habitacionesFiltradas);
+        } else {
+            fetchHabitaciones();
+        }
+
+        fetchFavoritos();
+    }, [habitacionesFiltradas, fetchHabitaciones]);
 
     const fetchFavoritos = async () => {
         try {
