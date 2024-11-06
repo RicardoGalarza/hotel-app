@@ -27,6 +27,7 @@ const ClienteLogin = () => {
       if (!response.ok) {
         // Verificar el estado de la respuesta para manejar diferentes errores
         const errorData = await response.json();
+        console.error('Detalles del error:', errorData);
         setErrorMessage(errorData.message || 'Su correo y/o contraseña no son correctas');
         return; // Terminar ejecución si hay un error
       }
