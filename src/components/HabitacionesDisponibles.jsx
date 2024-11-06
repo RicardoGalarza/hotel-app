@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
     const [habitaciones, setHabitaciones] = useState([]);
-    const [categorias, setCategorias] = useState([]);
-    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+    
+    
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -111,8 +111,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         setSugerencias([]);
     };
 
-    const indexOfLastHabitacion = currentPage * habitacionesPorPagina;
-    const indexOfFirstHabitacion = indexOfLastHabitacion - habitacionesPorPagina;
+    
 
     const paginacion = (numeroPagina) => {
         setCurrentPage(numeroPagina);
