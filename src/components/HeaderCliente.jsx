@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+
 const HeaderCliente = () => {
     const navigate = useNavigate();
     const [userId, setUserId] = useState(null);
