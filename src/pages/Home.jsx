@@ -1,264 +1,214 @@
 import axios from 'axios';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Pagination } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
+import HabitacionesDisponibles from '../components/HabitacionesDisponibles';
 
-const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
-    const [habitaciones, setHabitaciones] = useState([]);
-    const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
-    const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
-    const [currentPage, setCurrentPage] = useState(1);
-    const habitacionesPorPagina = 10;
-    const [favoritos, setFavoritos] = useState([]);
-    const [terminoBusqueda, setTerminoBusqueda] = useState('');
-    const [sugerencias, setSugerencias] = useState([]);
-    const navigate = useNavigate();
+const Home = () => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [showGuests, setShowGuests] = useState(false);
+  const [guests, setGuests] = useState({
+    adults: 2,
+    children: 0,
+  });
 
-    const fetchHabitaciones = useCallback(async () => {
-        try {
-            const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
-            setHabitaciones(response.data);
-            setHabitacionesMostradas(response.data);
-            fetchOpinionesPorHabitacion(response.data);
-        } catch (error) {
-            console.error('Error al cargar habitaciones:', error);
-        }
-    }, []);
+  const [ciudades, setCiudades] = useState([]);
+  const [ciudadSeleccionada, setCiudadSeleccionada] = useState('');
+  const [categorias, setCategorias] = useState([]);
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+  const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
 
-    useEffect(() => {
-        if (habitacionesFiltradas.length > 0) {
-            setHabitaciones(habitacionesFiltradas);
-            setHabitacionesMostradas(habitacionesFiltradas);
-        } else {
-            fetchHabitaciones();
-        }
-
-        fetchFavoritos();
-    }, [habitacionesFiltradas, fetchHabitaciones]);
-
-    const fetchFavoritos = async () => {
-        try {
-            const cuentaId = JSON.parse(localStorage.getItem('userId'));
-            if (cuentaId) {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${cuentaId}`);
-                setFavoritos(response.data);
-            }
-        } catch (error) {
-            console.error('Error al cargar favoritos:', error);
-        }
+  useEffect(() => {
+    const fetchCiudades = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades`);
+        setCiudades(response.data);
+      } catch (error) {
+        console.error("Error al obtener las ciudades", error);
+      }
     };
 
-    const fetchOpinionesPorHabitacion = async (habitaciones) => {
-        try {
-            const opinionesData = {};
-            for (const habitacion of habitaciones) {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/opiniones/habitacion/${habitacion.id}`);
-                const opiniones = response.data;
-                const totalEstrellas = opiniones.reduce((sum, opinion) => sum + opinion.estrellas, 0);
-                const promedioEstrellas = opiniones.length ? (totalEstrellas / opiniones.length).toFixed(1) : '0';
-                opinionesData[habitacion.id] = {
-                    promedioEstrellas,
-                    cantidadOpiniones: opiniones.length,
-                };
-            }
-            setOpinionesPorHabitacion(opinionesData);
-        } catch (error) {
-            console.error('Error al cargar opiniones:', error);
-        }
+    const fetchCategorias = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
+        const opciones = response.data.map((categoria) => ({
+          value: categoria.id,
+          label: categoria.nombre,
+        }));
+        setCategorias(opciones);
+      } catch (error) {
+        console.error("Error al obtener las categorías", error);
+      }
     };
 
-    const handleBusquedaChange = async (e) => {
-        const termino = e.target.value.trim();
-        setTerminoBusqueda(termino);
+    fetchCiudades();
+    fetchCategorias();
+  }, []);
 
-        if (termino.length > 0) {
-            try {
-                const ciudadResponse = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades?nombre=${termino}`);
-                if (ciudadResponse.data && ciudadResponse.data.length > 0) {
-                    const ciudadId = ciudadResponse.data[0].id;
-                    const habitacionesPorCiudad = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
-                    setHabitacionesMostradas(habitacionesPorCiudad.data);
-                    setSugerencias(habitacionesPorCiudad.data);
-                } else {
-                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
-                    if (response.data && response.data.length > 0) {
-                        setHabitacionesMostradas(response.data);
-                        setSugerencias(response.data);
-                    } else {
-                        setHabitacionesMostradas([]);
-                        setSugerencias([]);
-                    }
-                }
-            } catch (error) {
-                console.error('Error al buscar habitaciones:', error);
-                setHabitacionesMostradas([]);
-                setSugerencias([]);
-            }
-        } else {
-            setHabitacionesMostradas(habitaciones);
-            setSugerencias([]);
-        }
-    };
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+        const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(',');
 
-    const handleSugerenciaClick = (habitacion) => {
-        setTerminoBusqueda(habitacion.nombre);
-        setHabitacionesMostradas([habitacion]);
-        setSugerencias([]);
-    };
+        // Realiza la solicitud de filtrado de habitaciones
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/filtrar`, {
+            params: {
+                destino: ciudadSeleccionada,
+                fechaLlegada: startDate ? startDate.toISOString().split('T')[0] : null,
+                fechaSalida: endDate ? endDate.toISOString().split('T')[0] : null,
+                adultos: guests.adults,
+                ninos: guests.children,
+                categoria: categoriasString || null,
+            },
+        });
 
-    const paginacion = (numeroPagina) => {
-        setCurrentPage(numeroPagina);
-    };
-
-    const totalPaginas = Math.ceil(habitacionesMostradas.length / habitacionesPorPagina);
-    const indexOfLastHabitacion = currentPage * habitacionesPorPagina;
-    const indexOfFirstHabitacion = indexOfLastHabitacion - habitacionesPorPagina;
-    const habitacionesPaginadas = habitacionesMostradas.slice(indexOfFirstHabitacion, indexOfLastHabitacion);
-
-    const toggleFavorito = async (habitacionId) => {
-        const cuentaId = parseInt(localStorage.getItem('userId'), 10);
-        const esFavorito = favoritos.some(fav => fav.habitacion.id === habitacionId);
-
-        try {
-            if (!cuentaId) {
-                navigate('/login');
-            } else {
-                if (esFavorito) {
-                    await axios.delete(`${process.env.REACT_APP_API_URL}/favoritos`, {
-                        data: { cuentaId, habitacionId },
-                        headers: { 'Content-Type': 'application/json' },
-                    });
-                    setFavoritos(favoritos.filter(fav => fav.habitacion.id !== habitacionId));
-                } else {
-                    const response = await axios.post(`${process.env.REACT_APP_API_URL}/favoritos`, { cuentaId, habitacionId });
-                    setFavoritos([...favoritos, response.data]);
-                }
-            }
-        } catch (error) {
-            console.error('Error al actualizar el estado del favorito:', error);
-        }
-    };
-
-    const esFavorito = (habitacionId) => {
-        return favoritos.some(fav => fav.habitacion.id === habitacionId);
-    };
-
-    return (
-        <div className="container py-5">
-            <h2 className="text-center mb-4">Habitaciones Disponibles</h2>
-
-            <div className="mb-4 d-flex justify-content-center align-items-center">
-                <div className="input-group" style={{ width: '40%', position: 'relative' }}>
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Buscar habitaciones..."
-                        value={terminoBusqueda}
-                        onChange={handleBusquedaChange}
-                        aria-haspopup="true"
-                    />
-                    {sugerencias.length > 0 && (
-                        <ul
-                            className="dropdown-menu show"
-                            style={{
-                                position: 'absolute',
-                                top: '100%',
-                                left: 0,
-                                width: '100%',
-                                zIndex: 1050,
-                            }}
-                        >
-                            {sugerencias.map((habitacion) => (
-                                <li
-                                    key={habitacion.id}
-                                    className="dropdown-item"
-                                    onClick={() => handleSugerenciaClick(habitacion)}
-                                >
-                                    {habitacion.nombre}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-            </div>
-
-            {habitacionesPaginadas.length > 0 ? (
-                <div className="row">
-                    {habitacionesPaginadas.map((habitacion) => {
-                        const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
-
-                        return (
-                            <div className="col-md-6 mb-4" key={habitacion.id}>
-                                <div className="card h-100" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
-                                    <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
-                                        <img
-                                            src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[0].nombre}`}
-                                            alt={habitacion.nombre}
-                                            className="img-fluid"
-                                            style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                                        />
-                                        <button
-                                            onClick={() => toggleFavorito(habitacion.id)}
-                                            className="btn"
-                                            style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent' }}
-                                        >
-                                            <i className="fa" style={{ color: esFavorito(habitacion.id) ? 'red' : 'grey', fontSize: '24px' }}>
-                                                ♥
-                                            </i>
-                                        </button>
-                                    </div>
-
-                                    <div className="card-body" style={{ flex: '1 0 60%', padding: '15px', overflow: 'hidden', height: '250px' }}>
-                                        <h5 className="card-title">{habitacion.nombre}</h5>
-                                        <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
-                                        <div className="d-flex justify-content-start align-items-center mb-3">
-                                            <span className="badge" style={{ fontSize: '1.2rem', marginRight: '0.5rem', backgroundColor: '#28a745', color: '#fff', padding: '5px 10px' }}>
-                                                {promedioEstrellas}
-                                            </span>
-                                            <div className="d-flex flex-column ms-2">
-                                                <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#6C757D' }}>
-                                                    {promedioEstrellas >= 4 ? 'Excelente' : 'Buena'}
-                                                </span>
-                                                <span className="text-muted">
-                                                    {cantidadOpiniones} opiniones
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="d-flex justify-content-between align-items-end">
-                                            <strong style={{ fontSize: '1.4rem', color: '#333' }}>
-                                                ${habitacion.precio.toLocaleString('es-ES')} CLP
-                                            </strong>
-                                            <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
-                                                Ver Detalles
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            ) : (
-                <div className="alert alert-warning" role="alert">
-                    No se encontraron habitaciones disponibles.
-                </div>
-            )}
-
-            <Pagination className="justify-content-center">
-                <Pagination.First onClick={() => paginacion(1)} disabled={currentPage === 1} />
-                {[...Array(totalPaginas)].map((_, index) => (
-                    <Pagination.Item
-                        key={index + 1}
-                        active={index + 1 === currentPage}
-                        onClick={() => paginacion(index + 1)}
-                    >
-                        {index + 1}
-                    </Pagination.Item>
-                ))}
-                <Pagination.Last onClick={() => paginacion(totalPaginas)} disabled={currentPage === totalPaginas} />
-            </Pagination>
-        </div>
-    );
+        // Asegúrate de manejar correctamente la respuesta
+        setResultadosFiltrados(response.data);
+    } catch (error) {
+        console.error('Error al realizar la búsqueda:', error);
+    }
 };
 
-export default HabitacionesDisponibles;
+  const handleGuestChange = (type, action) => {
+    setGuests((prev) => ({
+      ...prev,
+      [type]: action === 'increase' ? prev[type] + 1 : Math.max(prev[type] - 1, 0),
+    }));
+  };
+
+  return (
+    <div>
+      <div
+        style={{
+          backgroundImage: `url('https://img.freepik.com/fotos-premium/lujoso-interior-vestibulo-hotel-esta-decorado-muebles-modernos-e-iluminacion-elegante_717906-109536.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '520px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 20,
+        }}
+      >
+        <div className="card p-4 shadow-lg rounded-lg" style={{ maxWidth: '400px', backgroundColor: '#ffffff', borderRadius: '20px' }}>
+          <h2 className="mb-4 text-center">Hoteles en Chile</h2>
+          <form onSubmit={handleSearch}>
+            <div className="row">
+              <div className="col-md-12 mb-3">
+                <label htmlFor="destination" className="form-label">¿A dónde quieres ir?</label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="bi bi-geo-alt-fill"></i>
+                  </span>
+                  <select
+                    id="destination"
+                    className="form-select"
+                    value={ciudadSeleccionada}
+                    onChange={(e) => setCiudadSeleccionada(e.target.value)}
+                    required
+                  >
+                    <option value="">Selecciona una ciudad</option>
+                    {ciudades.map((ciudad) => (
+                      <option key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="col-md-12 mb-3">
+                <label htmlFor="dates" className="form-label">Fechas</label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="bi bi-calendar"></i>
+                  </span>
+                  <DatePicker
+                    selected={startDate}
+                    onChange={(dates) => {
+                      const [start, end] = dates;
+                      setStartDate(start);
+                      setEndDate(end);
+                    }}
+                    startDate={startDate}
+                    endDate={endDate}
+                    selectsRange
+                    className="form-control w-100"
+                    placeholderText="Selecciona fechas"
+                    dateFormat="dd/MM/yyyy"
+                    monthsShown={2}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="col-md-12 mb-3">
+                <label htmlFor="category" className="form-label">Categoría</label>
+                <Select
+                  isMulti
+                  options={categorias}
+                  value={categoriasSeleccionadas}
+                  onChange={(selectedOptions) => setCategoriasSeleccionadas(selectedOptions)}
+                  placeholder="Selecciona una o más categorías"
+                />
+              </div>
+
+              <div className="col-md-12 mb-4">
+                <label htmlFor="guests" className="form-label">Huéspedes</label>
+                <div className="input-group">
+                  <span className="input-group-text">
+                    <i className="bi bi-people-fill"></i>
+                  </span>
+                  <button
+                    type="button"
+                    className="form-control text-start"
+                    onClick={() => setShowGuests(!showGuests)}
+                  >
+                    {guests.adults} adultos, {guests.children} niños
+                  </button>
+                </div>
+                {showGuests && (
+                  <div className="mt-2 p-3 border rounded" style={{
+                    position: 'absolute',
+                    zIndex: 1000,
+                    backgroundColor: 'white',
+                    width: '300px',
+                  }}>
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="me-3">Adultos</span>
+                      <div className="d-flex align-items-center">
+                        <button type="button" onClick={() => handleGuestChange('adults', 'decrease')}>-</button>
+                        <span className="mx-2">{guests.adults}</span>
+                        <button type="button" onClick={() => handleGuestChange('adults', 'increase')}>+</button>
+                      </div>
+                    </div>
+                    <div className="d-flex justify-content-between mb-2">
+                      <span className="me-3">Niños</span>
+                      <div className="d-flex align-items-center">
+                        <button type="button" onClick={() => handleGuestChange('children', 'decrease')}>-</button>
+                        <span className="mx-2">{guests.children}</span>
+                        <button type="button" onClick={() => handleGuestChange('children', 'increase')}>+</button>
+                      </div>
+                    </div>
+                    <button type="button" className="btn btn-primary mt-3" onClick={() => setShowGuests(false)}>Listo</button>
+                  </div>
+                )}
+              </div>
+
+              <div className="col-md-12">
+                <button type="submit" className="btn btn-primary w-100">Realizar búsqueda</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div className="container">
+        <HabitacionesDisponibles habitacionesFiltradas={resultadosFiltrados} />
+      </div>
+    </div>
+  );
+};
+
+export default Home;

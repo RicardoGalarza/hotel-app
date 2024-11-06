@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-const HabitacionesDisponibles = () => {
+const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [habitaciones, setHabitaciones] = useState([]);
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
@@ -14,35 +14,39 @@ const HabitacionesDisponibles = () => {
     const [sugerencias, setSugerencias] = useState([]);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchHabitaciones = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
-                setHabitaciones(response.data);
-                setHabitacionesMostradas(response.data);
-                fetchOpinionesPorHabitacion(response.data);
-            } catch (error) {
-                console.error('Error al cargar habitaciones:', error);
-            }
-        };
-
-        const fetchFavoritos = async () => {
-            try {
-                const cuentaId = JSON.parse(localStorage.getItem('userId'));
-                if (cuentaId) {
-                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${cuentaId}`);
-                    setFavoritos(response.data);
-                }
-            } catch (error) {
-                console.error('Error al cargar favoritos:', error);
-            }
-        };
-
-        fetchHabitaciones();
-        fetchFavoritos();
+    const fetchHabitaciones = useCallback(async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
+            setHabitaciones(response.data);
+            setHabitacionesMostradas(response.data);
+            fetchOpinionesPorHabitacion(response.data);
+        } catch (error) {
+            console.error('Error al cargar habitaciones:', error);
+        }
     }, []);
 
-    
+    useEffect(() => {
+        if (habitacionesFiltradas.length > 0) {
+            setHabitaciones(habitacionesFiltradas);
+            setHabitacionesMostradas(habitacionesFiltradas);
+        } else {
+            fetchHabitaciones();
+        }
+
+        fetchFavoritos();
+    }, [habitacionesFiltradas, fetchHabitaciones]);
+
+    const fetchFavoritos = async () => {
+        try {
+            const cuentaId = JSON.parse(localStorage.getItem('userId'));
+            if (cuentaId) {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${cuentaId}`);
+                setFavoritos(response.data);
+            }
+        } catch (error) {
+            console.error('Error al cargar favoritos:', error);
+        }
+    };
 
     const fetchOpinionesPorHabitacion = async (habitaciones) => {
         try {
@@ -69,16 +73,13 @@ const HabitacionesDisponibles = () => {
 
         if (termino.length > 0) {
             try {
-                // Verificar si el término de búsqueda corresponde a una ciudad
                 const ciudadResponse = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades?nombre=${termino}`);
                 if (ciudadResponse.data && ciudadResponse.data.length > 0) {
-                    // Si se encuentra una ciudad, buscar habitaciones por ciudad
-                    const ciudadId = ciudadResponse.data[0].id; // Obtener el ID de la ciudad
+                    const ciudadId = ciudadResponse.data[0].id;
                     const habitacionesPorCiudad = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
                     setHabitacionesMostradas(habitacionesPorCiudad.data);
                     setSugerencias(habitacionesPorCiudad.data);
                 } else {
-                    // Si no es una ciudad, buscar habitaciones por nombre o criterio general
                     const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
                     if (response.data && response.data.length > 0) {
                         setHabitacionesMostradas(response.data);
@@ -94,7 +95,6 @@ const HabitacionesDisponibles = () => {
                 setSugerencias([]);
             }
         } else {
-            // Si no hay término de búsqueda, restablecer la lista de habitaciones
             setHabitacionesMostradas(habitaciones);
             setSugerencias([]);
         }
@@ -142,9 +142,6 @@ const HabitacionesDisponibles = () => {
     const esFavorito = (habitacionId) => {
         return favoritos.some(fav => fav.habitacion.id === habitacionId);
     };
-
-    
-
 
     return (
         <div className="container py-5">
