@@ -4,7 +4,6 @@ import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
-    const [habitaciones, setHabitaciones] = useState([]);
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
