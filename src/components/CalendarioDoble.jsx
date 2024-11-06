@@ -118,4 +118,5 @@ const CalendarioDoble = ({ habitacionId, onFechaSeleccionada, actualizarCalendar
   );
 };
 
+
 export default CalendarioDoble;
