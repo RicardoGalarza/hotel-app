@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { addMonths, eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const CalendarioDoble = ({ habitacionId, onFechaSeleccionada, actualizarCalendario }) => {
   const [fechasNoDisponibles, setFechasNoDisponibles] = useState([]);
@@ -10,8 +10,8 @@ const CalendarioDoble = ({ habitacionId, onFechaSeleccionada, actualizarCalendar
   const mesActual = new Date();
   const mesSiguiente = addMonths(mesActual, 1);
 
-  // Función para cargar las fechas no disponibles
-  const fetchFechasNoDisponibles = async () => {
+  // Usar useCallback para memoizar la función
+  const fetchFechasNoDisponibles = useCallback(async () => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/reserva/fechas-no-disponibles/habitacion/${habitacionId}`);
       const fechas = response.data.flatMap(rango => 
@@ -28,7 +28,7 @@ const CalendarioDoble = ({ habitacionId, onFechaSeleccionada, actualizarCalendar
     } catch (err) {
       console.error('Error al cargar las fechas no disponibles');
     }
-  };
+  }, [habitacionId]);
 
   // Efecto para cargar las fechas al inicio y cuando `actualizarCalendario` cambie
   useEffect(() => {
