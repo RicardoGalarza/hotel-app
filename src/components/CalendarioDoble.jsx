@@ -108,6 +108,7 @@ const CalendarioDoble = ({ habitacionId, onFechaSeleccionada, actualizarCalendar
                   backgroundColor: dia.seleccionado ? '#804000' : dia.noDisponible ? '#e0e0e0' : 'transparent',
                 }}
               >
+                
                 {format(dia.fecha, 'd')}
               </div>
             ))}
