@@ -58,16 +58,18 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             }
         };
 
+        fetchHabitaciones();
+        fetchCategorias();
+        fetchFavoritos();
+    }, []);
+
+        useEffect(() => {
         const habitacionesFiltradasPorCategoria = categoriaSeleccionada
             ? habitaciones.filter(hab => hab.categoria === categoriaSeleccionada)
             : habitaciones;
 
         setHabitacionesMostradas(habitacionesFiltradasPorCategoria);
-
-        fetchHabitaciones();
-        fetchCategorias();
-        fetchFavoritos();
-    }, [categoriaSeleccionada, habitacionesFiltradas]);
+    }, [categoriaSeleccionada, habitaciones]);
 
     // Función mejorada para cargar opiniones y calcular el promedio de estrellas
     const fetchOpinionesPorHabitacion = async (habitaciones) => {
