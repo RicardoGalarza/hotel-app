@@ -72,9 +72,9 @@ const VerHabitacion = () => {
   };
 
   // Nueva función para manejar la administración de características
-  //const handleCaracteristicas = (id) => {
-    navigate(`/admin/habitacion/${id}/caracteristicas`);  // Redirige a la página de administración de características
-  };
+  // const handleCaracteristicas = (id) => {
+  //   navigate(`/admin/habitacion/${id}/caracteristicas`);  // Redirige a la página de administración de características
+  // };
 
   // Obtener los productos actuales para la paginación
   const indexOfLastProducto = currentPage * productosPerPage;
