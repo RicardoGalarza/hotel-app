@@ -61,28 +61,23 @@ const Home = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!ciudadSeleccionada) {
-        console.error("No se ha seleccionado una ciudad");
-        return;
-    }
-
     try {
-        const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(','); // Convertir a string
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/filtrar`, {
-            params: {
-                destino: ciudadSeleccionada, // Asegúrate de que `ciudadSeleccionada` tiene el ID
-                fechaLlegada: startDate ? startDate.toISOString().split('T')[0] : null,
-                fechaSalida: endDate ? endDate.toISOString().split('T')[0] : null,
-                adultos: guests.adults,
-                ninos: guests.children,
-                categoria: categoriasString,
-            },
-        });
-        setResultadosFiltrados(response.data);
+      const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(','); // Convertir las categorías seleccionadas en un string separado por comas
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/filtrar`, {
+        params: {
+          destino: ciudadSeleccionada, // Verifica que este valor esté bien definido y tenga el id correcto de la ciudad
+          fechaLlegada: startDate ? startDate.toISOString().split('T')[0] : null,
+          fechaSalida: endDate ? endDate.toISOString().split('T')[0] : null,
+          adultos: guests.adults,
+          ninos: guests.children,
+          categoria: categoriasString,
+        },
+      });
+      setResultadosFiltrados(response.data);
     } catch (error) {
-        console.error('Error al realizar la búsqueda:', error);
+      console.error('Error al realizar la búsqueda:', error);
     }
-};
+  };
 
   const handleGuestChange = (type, action) => {
     setGuests((prev) => ({
