@@ -19,7 +19,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
                 const data = response.data;
-                setHabitaciones(data);
+               
                 fetchOpinionesPorHabitacion(data); // Cargar opiniones después de obtener habitaciones
             } catch (error) {
                 console.log('Error al cargar habitaciones:', error);
