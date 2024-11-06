@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import axios from 'axios';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Alert, Button, Container, Form } from 'react-bootstrap';
 
 const CrearCaracteristica = () => {
   const [nombre, setNombre] = useState('');
@@ -17,7 +17,7 @@ const CrearCaracteristica = () => {
 
     try {
       // Llamada a la API para crear la característica
-      await axios.post('http://localhost:8080/caracteristicas', formData, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/caracteristicas`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

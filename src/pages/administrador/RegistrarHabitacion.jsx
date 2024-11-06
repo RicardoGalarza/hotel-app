@@ -22,7 +22,7 @@ const RegistrarHabitacion = () => {
 
     useEffect(() => {
         // Obtener categorías
-        axios.get('http://localhost:8080/categorias')
+        axios.get(`${process.env.REACT_APP_API_URL}/categorias`)
             .then(response => {
                 const opcionesCategorias = response.data.map(categoria => ({
                     value: categoria.id,
@@ -35,7 +35,7 @@ const RegistrarHabitacion = () => {
             });
 
         // Obtener ciudades
-        axios.get('http://localhost:8080/ciudades')
+        axios.get(`${process.env.REACT_APP_API_URL}/ciudades`)
             .then(response => {
                 const opcionesCiudades = response.data.map(ciudad => ({
                     value: ciudad.id,
@@ -48,7 +48,7 @@ const RegistrarHabitacion = () => {
             });
 
         // Obtener políticas
-        axios.get("http://localhost:8080/politicas")
+        axios.get(`${process.env.REACT_APP_API_URL}/politicas`)
             .then(response => {
                 const opciones = response.data.map(politica => ({
                     value: politica.id,
@@ -61,7 +61,7 @@ const RegistrarHabitacion = () => {
             });
 
         // Obtener características
-        axios.get('http://localhost:8080/caracteristicas')
+        axios.get(`${process.env.REACT_APP_API_URL}/caracteristicas`)
             .then(response => {
                 const opcionesCaracteristicas = response.data.map(caracteristica => ({
                     value: caracteristica.id,
@@ -108,7 +108,7 @@ const RegistrarHabitacion = () => {
         caracteristicasSeleccionadas.forEach(option => formData.append('caracteristicas', option.value));
 
         try {
-            const response = await axios.post('http://localhost:8080/habitaciones', formData, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/habitaciones`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 

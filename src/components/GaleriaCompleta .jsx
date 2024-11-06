@@ -15,7 +15,7 @@ const GaleriaCompleta = () => {
     useEffect(() => {
         const fetchHabitacion = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/habitaciones/${id}`);
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/habitaciones/${id}`);
                 const data = await response.json();
                 setHabitacion(data);
             } catch (err) {
@@ -71,7 +71,7 @@ const GaleriaCompleta = () => {
                 {habitacion.imagenes.map((imagen, index) => (
                     <div className="col-md-4 mb-4" key={index}>
                         <img
-                            src={`http://localhost:8080/${habitacion.id}/${imagen.nombre}`}
+                            src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${imagen.nombre}`}
                             alt={`Imagen ${index + 1}`}
                             className="img-fluid"
                             style={{ width: "100%", height: "200px", objectFit: "cover", cursor: "pointer" }}
@@ -100,7 +100,7 @@ const GaleriaCompleta = () => {
 
                     {/* Imagen principal */}
                     <img
-                        src={`http://localhost:8080/${habitacion.id}/${habitacion.imagenes[currentImageIndex].nombre}`}
+                        src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[currentImageIndex].nombre}`}
                         alt={`Imagen ${currentImageIndex + 1}`}
                         className={`w-100 ${isZoomed ? "zoomed" : ""}`}
                         style={{

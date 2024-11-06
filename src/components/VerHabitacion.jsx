@@ -16,7 +16,7 @@ const VerHabitacion = () => {
   const totalPaginas = Math.ceil(productos.length / productosPerPage);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/habitaciones')
+    axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`)
       .then(response => {
         setProductos(response.data);
       })
@@ -34,7 +34,7 @@ const VerHabitacion = () => {
   const eliminarHabitacion = () => {
     if (productoAEliminar) {
       console.log(productoAEliminar.id); // Verifica que el ID sea correcto
-      axios.delete(`http://localhost:8080/habitaciones/${productoAEliminar.id}`)
+      axios.delete(`${process.env.REACT_APP_API_URL}/habitaciones/${productoAEliminar.id}`)
         .then(() => {
           setProductos(productos.filter(producto => producto.id !== productoAEliminar.id));
           setAlerta({

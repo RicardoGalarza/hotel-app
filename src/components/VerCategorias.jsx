@@ -14,7 +14,7 @@ const VerCategorias = () => {
 
     const obtenerCategorias = async (page) => {
         try {
-            const response = await axios.get(`http://localhost:8080/categorias/pageable?page=${page - 1}&size=15`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias/pageable?page=${page - 1}&size=15`);
             setCategorias(response.data.content);
             setTotalPaginas(response.data.totalPages);
             setCurrentPage(page);
@@ -44,7 +44,7 @@ const VerCategorias = () => {
 
     const eliminarCategoria = () => {
         if (categoriaAEliminar) {
-            axios.delete(`http://localhost:8080/categorias/${categoriaAEliminar.id}`)
+            axios.delete(`${process.env.REACT_APP_API_URL}/categorias/${categoriaAEliminar.id}`)
                 .then(() => {
                     setCategorias(categorias.filter(categoria => categoria.id !== categoriaAEliminar.id));
                     setAlerta({
@@ -97,7 +97,7 @@ const VerCategorias = () => {
                                 <td>
                                     {categoria.nombreImagen ? (
                                         <img
-                                            src={`http://localhost:8080/${categoria.nombreImagen}`}
+                                            src={`${process.env.REACT_APP_API_URL}/${categoria.nombreImagen}`}
                                             alt={categoria.nombre}
                                             style={{ width: '50px', height: 'auto' }}
                                         />

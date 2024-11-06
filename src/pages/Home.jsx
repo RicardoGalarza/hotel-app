@@ -24,7 +24,7 @@ const Home = () => {
   useEffect(() => {
     const fetchCiudades = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/ciudades');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades`);
         setCiudades(response.data);
       } catch (error) {
         console.error("Error al obtener las ciudades", error);
@@ -33,7 +33,7 @@ const Home = () => {
 
     const fetchCategorias = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/categorias');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
         const opciones = response.data.map((categoria) => ({
           value: categoria.id,
           label: categoria.nombre,
@@ -46,7 +46,7 @@ const Home = () => {
 
     const fetchHabitaciones = async () => {
       try {
-        const response = await fetch('http://localhost:8080/habitaciones');
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/habitaciones`);
         const data = await response.json();
         setResultadosFiltrados(data);
       } catch (error) {
@@ -63,7 +63,7 @@ const Home = () => {
     e.preventDefault();
     try {
       const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(','); // Convertir las categorías seleccionadas en un string separado por comas
-      const response = await axios.get(`http://localhost:8080/habitaciones/filtrar`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/filtrar`, {
         params: {
           destino: ciudadSeleccionada,
           fechaLlegada: startDate ? startDate.toISOString().split('T')[0] : null,

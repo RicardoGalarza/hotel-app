@@ -8,7 +8,7 @@ const HabitacionesRecomendadas = () => {
     useEffect(() => {
         const fetchHabitacionesRecomendadas = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/habitaciones/recomendadas');
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/recomendadas`);
                 setHabitacionesRecomendadas(response.data);
             } catch (err) {
                 console.error('Hubo un error al obtener las habitaciones recomendadas', err);

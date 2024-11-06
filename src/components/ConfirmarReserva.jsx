@@ -12,7 +12,7 @@ const ConfirmarReserva = () => {
         const reservaId = params.get('reservaId');
 
         if (reservaId) {
-            axios.put(`http://localhost:8080/reserva/confirmar?reservaId=${reservaId}`)
+            axios.put(`${process.env.REACT_APP_API_URL}/reserva/confirmar?reservaId=${reservaId}`)
                 .then(response => {
                     if (response.data === "Reserva confirmada con éxito.") {
                         setMensaje(

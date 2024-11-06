@@ -13,7 +13,7 @@ const CalendarioDoble = ({ habitacionId, onFechaSeleccionada, actualizarCalendar
   // Función para cargar las fechas no disponibles
   const fetchFechasNoDisponibles = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/reserva/fechas-no-disponibles/habitacion/${habitacionId}`);
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/reserva/fechas-no-disponibles/habitacion/${habitacionId}`);
       const fechas = response.data.flatMap(rango => 
         eachDayOfInterval({
           start: new Date(rango.fechaInicio + 'T00:00'),

@@ -48,7 +48,7 @@ const CrearCuentaAdmin = () => {
 
         try {
             const nuevaCuenta = { nombre, apellido, usuario, correo, clave: password, rolId };
-            await axios.post(`http://localhost:8080/cuentas/crear?rolId=${rolId}`, nuevaCuenta);
+            await axios.post(`${process.env.REACT_APP_API_URL}/cuentas/crear?rolId=${rolId}`, nuevaCuenta);
             setAlerta({ mostrar: true, mensaje: 'Cuenta creada exitosamente.', tipo: 'success' });
 
             // Limpiar los campos después de la creación de la cuenta

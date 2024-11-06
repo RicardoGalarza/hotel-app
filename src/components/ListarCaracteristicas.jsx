@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Container, Alert } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Alert, Container, Table } from 'react-bootstrap';
 
 const ListarCaracteristicas = () => {
   const [caracteristicas, setCaracteristicas] = useState([]);
@@ -10,7 +10,7 @@ const ListarCaracteristicas = () => {
     // Llamada a la API para obtener las características
     const fetchCaracteristicas = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/caracteristicas');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/caracteristicas`);
         setCaracteristicas(response.data);
       } catch (error) {
         setError('Error al obtener las características. Intenta de nuevo más tarde.');
@@ -48,7 +48,7 @@ const ListarCaracteristicas = () => {
                 <td>
                   {caracteristica.imagenNombre ? (
                     <img
-                      src={`http://localhost:8080/${caracteristica.id}/${caracteristica.imagenNombre}`}
+                      src={`${process.env.REACT_APP_API_URL}/${caracteristica.id}/${caracteristica.imagenNombre}`}
                       alt={caracteristica.nombre}
                       style={{ width: '50px', height: 'auto' }}
                     />

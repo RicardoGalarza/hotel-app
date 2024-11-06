@@ -15,7 +15,7 @@ const HistorialReservas = () => {
         const fetchReservas = async () => {
             try {
                 const userId = localStorage.getItem('userId');
-                const response = await axios.get(`http://localhost:8080/reserva/historial?clienteId=${userId}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/reserva/historial?clienteId=${userId}`);
                 setReservas(response.data);
                 setLoading(false);
             } catch (err) {
@@ -91,7 +91,7 @@ const HistorialReservas = () => {
                                     {reserva.habitacion.imagenes.map((imagen) => (
                                         <img
                                             key={imagen.id}
-                                            src={`http://localhost:8080/${reserva.habitacion.id}/${imagen.nombre}`}
+                                            src={`${process.env.REACT_APP_API_URL}/${reserva.habitacion.id}/${imagen.nombre}`}
                                             alt={imagen.nombre}
                                             className="img-thumbnail m-2"
                                             style={{ width: '100px', height: '100px' }}

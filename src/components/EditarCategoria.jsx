@@ -11,7 +11,7 @@ const EditarCategoria = () => {
 
     useEffect(() => {
         // Cargar los datos de la habitación cuando se monta el componente
-        axios.get(`http://localhost:8080/categorias/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/categorias/${id}`)
             .then(response => {
                 setCategoria(response.data);
             })
@@ -29,7 +29,7 @@ const EditarCategoria = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:8080/categorias/${id}`, categoria)
+        axios.put(`${process.env.REACT_APP_API_URL}/categorias/${id}`, categoria)
             .then(() => {
                 setAlerta({ visible: true, mensaje: 'Cambios guardados con éxito', tipo: 'success' });
                 setTimeout(() => {

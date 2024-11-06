@@ -16,7 +16,7 @@ const HeaderCliente = () => {
         if (storedUserId) {
             setUserId(storedUserId);
             // Llamada a la API para obtener los datos del usuario
-            fetch(`http://localhost:8080/cuentas/${storedUserId}`)
+            fetch(`${process.env.REACT_APP_API_URL}/cuentas/${storedUserId}`)
                 .then((response) => response.json())
                 .then((data) => {
                     setNombre(data.nombre);

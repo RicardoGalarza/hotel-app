@@ -62,7 +62,7 @@ const CrearCuentaCliente = () => {
 
         try {
             const nuevaCuenta = { nombre, apellido, usuario, correo, clave: password };
-            await axios.post('http://localhost:8080/cuentas/crear?rolId=2', nuevaCuenta); // Asignar el rol 2 de cliente directamente en la URL
+            await axios.post(`${process.env.REACT_APP_API_URL}/cuentas/crear?rolId=2`, nuevaCuenta); // Asignar el rol 2 de cliente directamente en la URL
             setAlerta({
                 mostrar: true,
                 mensaje: 'Cuenta creada exitosamente.',

@@ -14,7 +14,7 @@ const ClienteLogin = () => {
 
     try {
       // Llamada al endpoint de autenticación (primer endpoint)
-      const response = await fetch('http://localhost:8080/cuentas/login', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/cuentas/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ const ClienteLogin = () => {
       localStorage.setItem('userId', data.userId);
     
       // Llamada para obtener los permisos del usuario
-      const userResponse = await fetch(`http://localhost:8080/cuentas/${data.userId}`, {
+      const userResponse = await fetch(`${process.env.REACT_APP_API_URL}/cuentas/${data.userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -48,7 +48,7 @@ const VerDetalles = () => {
     useEffect(() => {
         const fetchHabitacion = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/habitaciones/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/${id}`);
                 setHabitacion(response.data);
             } catch (err) {
                 setError('Hubo un error al obtener los detalles de la habitación.');
@@ -57,7 +57,7 @@ const VerDetalles = () => {
 
         const fetchOpiniones = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/opiniones/habitacion/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/opiniones/habitacion/${id}`);
                 setOpiniones(response.data);
             } catch (err) {
                 setError('Hubo un error al obtener las opiniones.');
@@ -68,7 +68,7 @@ const VerDetalles = () => {
 
         const fetchFavorito = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/favoritos/cuenta/${cuentaId}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${cuentaId}`);
                 const esFavorito = response.data.some(fav => fav.habitacion.id === parseInt(id));
                 setFavorito(esFavorito);
             } catch (err) {
@@ -79,7 +79,7 @@ const VerDetalles = () => {
         const fetchPoliticas = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:8080/politicas/habitaciones/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/politicas/habitaciones/${id}`);
                 setPoliticas(response.data);
             } catch (err) {
                 setError('Error al cargar las políticas');
@@ -90,7 +90,7 @@ const VerDetalles = () => {
 
         const fetchCaracteristicas = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/habitaciones/${id}/caracteristicas`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/${id}/caracteristicas`);
                 setCaracteristicas(response.data);
             } catch (err) {
                 setError('Error al cargar las características');
@@ -137,7 +137,7 @@ const VerDetalles = () => {
             if (!cuentaLogueado) {
                 navigate('/login');
             } else {
-                const response = await axios.post(`http://localhost:8080/opiniones`, {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/opiniones`, {
                     habitacionId: id,
                     cuentaId: cuentaLogueado,
                     estrellas: nuevaOpinion.estrellas,
@@ -176,7 +176,7 @@ const VerDetalles = () => {
                 return;
             }
 
-            const verificarDisponibilidad = await axios.get(`http://localhost:8080/reserva/validar-disponibilidad`, {
+            const verificarDisponibilidad = await axios.get(`${process.env.REACT_APP_API_URL}/reserva/validar-disponibilidad`, {
                 params: {
                     habitacionId: id,
                     fechaInicio: fechaInicio.toISOString().split('T')[0],
@@ -185,7 +185,7 @@ const VerDetalles = () => {
             });
 
             if (verificarDisponibilidad.data === "Disponible") {
-                const response = await axios.post('http://localhost:8080/reserva/crear', {
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/reserva/crear`, {
                     habitacionId: id,
                     clienteId: parseInt(cuentaId, 10),
                     fechaReserva: fechaInicio.toISOString().split('T')[0],
@@ -221,14 +221,14 @@ const VerDetalles = () => {
                 navigate('/login');
             } else {
                 if (favorito) {
-                    await axios.delete(`http://localhost:8080/favoritos`, {
+                    await axios.delete(`${process.env.REACT_APP_API_URL}/favoritos`, {
                         data: {
                             cuentaId: parseInt(cuentaId),
                             habitacionId: parseInt(id),
                         }
                     });
                 } else {
-                    await axios.post(`http://localhost:8080/favoritos`, {
+                    await axios.post(`${process.env.REACT_APP_API_URL}/favoritos`, {
                         cuentaId: parseInt(cuentaId),
                         habitacionId: parseInt(id),
                     });
@@ -284,7 +284,7 @@ const VerDetalles = () => {
                         Contactar
                     </button>
                     <a
-                        href={`https://wa.me/?text=${encodeURIComponent(`Mira esta habitación: ${habitacion.nombre} - ${habitacion.descripcion}. Precio: ${habitacion.precio}. Link: http://localhost:8080/detalle/${habitacion.id}`)}`}
+                        href={`https://wa.me/?text=${encodeURIComponent(`Mira esta habitación: ${habitacion.nombre} - ${habitacion.descripcion}. Precio: ${habitacion.precio}. Link: ${process.env.REACT_APP_API_URL}/detalle/${habitacion.id}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn btn-outline-primary d-flex align-items-center ms-2"
@@ -303,7 +303,7 @@ const VerDetalles = () => {
                 <div className="col-md-6">
                     <div className="card h-100 zoom">
                         <img
-                            src={`http://localhost:8080/${habitacion.id}/${habitacion.imagenes[0].nombre}`}
+                            src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[0].nombre}`}
                             alt="Imagen principal"
                             className="img-fluid"
                             style={{ width: '100%', height: '400px', objectFit: 'cover' }}
@@ -317,7 +317,7 @@ const VerDetalles = () => {
                             <div className="col-md-6 mb-3" key={index}>
                                 <div className="card h-100 zoom">
                                     <img
-                                        src={`http://localhost:8080/${habitacion.id}/${imagen.nombre}`}
+                                        src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${imagen.nombre}`}
                                         alt={`Imagen ${index + 2}`}
                                         className="img-fluid"
                                         style={{ width: '100%', height: '150px', objectFit: 'cover' }}
@@ -351,7 +351,7 @@ const VerDetalles = () => {
                             caracteristicas.map((caracteristica) => (
                                 <div className="col-6 col-md-4 mb-3 d-flex align-items-center" key={caracteristica.id}>
                                     <img
-                                        src={`http://localhost:8080/caracteristicas/${caracteristica.id}/${caracteristica.imagenNombre}`}
+                                        src={`${process.env.REACT_APP_API_URL}/caracteristicas/${caracteristica.id}/${caracteristica.imagenNombre}`}
                                         alt={caracteristica.nombre}
                                         style={{ width: '24px', height: '24px', marginRight: '8px' }}
                                     />

@@ -29,7 +29,7 @@ const EditarHabitacion = () => {
 
     useEffect(() => {
         // Cargar los datos de la habitación
-        axios.get(`http://localhost:8080/habitaciones/${id}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/${id}`)
             .then(response => {
                 const habitacionData = response.data;
                 setHabitacion({
@@ -46,7 +46,7 @@ const EditarHabitacion = () => {
             });
 
         // Cargar categorías
-        axios.get('http://localhost:8080/categorias')
+        axios.get(`${process.env.REACT_APP_API_URL}/categorias`)
             .then(response => {
                 setCategorias(response.data.map(cat => ({ value: cat.id, label: cat.nombre })));
             })
@@ -55,7 +55,7 @@ const EditarHabitacion = () => {
             });
 
         // Cargar políticas
-        axios.get('http://localhost:8080/politicas')
+        axios.get(`${process.env.REACT_APP_API_URL}/politicas`)
             .then(response => {
                 setPoliticas(response.data.map(pol => ({ value: pol.id, label: pol.titulo })));
             })
@@ -64,7 +64,7 @@ const EditarHabitacion = () => {
             });
 
         // Cargar ciudades
-        axios.get('http://localhost:8080/ciudades')
+        axios.get(`${process.env.REACT_APP_API_URL}/ciudades`)
             .then(response => {
                 setCiudades(response.data.map(ciudad => ({ value: ciudad.id, label: ciudad.nombre })));
             })
@@ -73,7 +73,7 @@ const EditarHabitacion = () => {
             });
 
         // Cargar características
-        axios.get('http://localhost:8080/caracteristicas')
+        axios.get(`${process.env.REACT_APP_API_URL}/caracteristicas`)
             .then(response => {
                 setCaracteristicas(response.data.map(carac => ({ value: carac.id, label: carac.nombre })));
             })
@@ -123,7 +123,7 @@ const EditarHabitacion = () => {
     };
 
     const handleEliminarImagen = (imagenId) => {
-        axios.delete(`http://localhost:8080/imagenes/${imagenId}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/imagenes/${imagenId}`)
             .then(() => {
                 setImagenesPrecargadas(prevImagenes => prevImagenes.filter(img => img.id !== imagenId));
                 setAlerta({
@@ -168,7 +168,7 @@ const EditarHabitacion = () => {
             formData.append('imagenes', '');
         }
 
-        axios.put(`http://localhost:8080/habitaciones/${id}`, formData, {
+        axios.put(`${process.env.REACT_APP_API_URL}/habitaciones/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -306,7 +306,7 @@ const EditarHabitacion = () => {
                         {imagenesPrecargadas.map((imagen, index) => (
                             <div key={index} className="m-2 position-relative">
                                 <img
-                                    src={`http://localhost:8080/${id}/${imagen.nombre}`}
+                                    src={`${process.env.REACT_APP_API_URL}/${id}/${imagen.nombre}`}
                                     alt={`Imagen ${index + 1}`}
                                     style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                                 />

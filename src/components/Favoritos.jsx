@@ -14,7 +14,7 @@ const Favoritos = () => {
         const fetchFavoritos = async () => {
             try {
                 const userId = localStorage.getItem('userId');
-                const response = await axios.get(`http://localhost:8080/favoritos/cuenta/${userId}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${userId}`);
                 setFavoritos(response.data);
                 setLoading(false);
             } catch (error) {
@@ -31,7 +31,7 @@ const Favoritos = () => {
             try {
                 const opinionesMap = {};
                 for (let favorito of favoritos) {
-                    const response = await axios.get(`http://localhost:8080/opiniones/habitacion/${favorito.habitacion.id}`);
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/opiniones/habitacion/${favorito.habitacion.id}`);
                     const data = response.data;
                     const promedioEstrellas = data.reduce((acc, opinion) => acc + opinion.estrellas, 0) / data.length || 0;
                     opinionesMap[favorito.habitacion.id] = {
@@ -57,12 +57,12 @@ const Favoritos = () => {
         try {
             if (esFavorito) {
                 setFavoritos(favoritos.filter(fav => fav.habitacion.id !== habitacionId));
-                await axios.delete('http://localhost:8080/favoritos', {
+                await axios.delete(`${process.env.REACT_APP_API_URL}/favoritos`, {
                     data: { cuentaId, habitacionId },
                     headers: { 'Content-Type': 'application/json' }
                 });
             } else {
-                const response = await axios.post(`http://localhost:8080/favoritos`, { cuentaId, habitacionId });
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/favoritos`, { cuentaId, habitacionId });
                 setFavoritos([...favoritos, response.data]);
             }
         } catch (error) {
@@ -110,7 +110,7 @@ const Favoritos = () => {
                                     }}
                                 >
                                     <img
-                                        src={`http://localhost:8080/${favorito.habitacion.id}/${favorito.habitacion.imagenes[0].nombre}`}
+                                        src={`${process.env.REACT_APP_API_URL}/${favorito.habitacion.id}/${favorito.habitacion.imagenes[0].nombre}`}
                                         alt={favorito.habitacion.nombre}
                                         className="img-fluid"
                                         style={{ height: '100%', width: '100%', objectFit: 'cover' }}

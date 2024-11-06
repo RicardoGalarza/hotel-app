@@ -22,7 +22,7 @@ const CrearCategoria = () => {
 
         try {
             // Envía la categoría a tu API para guardarla
-            await axios.post('http://localhost:8080/categorias', formData, {
+            await axios.post(`${process.env.REACT_APP_API_URL}/categorias`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

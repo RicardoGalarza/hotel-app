@@ -8,7 +8,7 @@ const InformacionPersonal = () => {
         const fetchUserData = async () => {
             try {
                 const userId = localStorage.getItem('userId');
-                const response = await fetch(`http://localhost:8080/cuentas/${userId}`, {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/cuentas/${userId}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

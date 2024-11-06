@@ -11,7 +11,7 @@ const ListarCuentas = () => {
     }, []);
 
     const obtenerCuentas = () => {
-        axios.get('http://localhost:8080/cuentas')
+        axios.get(`${process.env.REACT_APP_API_URL}/cuentas`)
             .then(response => {
                 console.log(response.data);  // Verifica la estructura de los datos
                 setCuentas(response.data);
@@ -25,7 +25,7 @@ const ListarCuentas = () => {
     };
 
     const actualizarRol = (cuentaId, nuevoRol) => {
-        axios.put(`http://localhost:8080/cuentas/${cuentaId}/rol`, { rolId: nuevoRol })
+        axios.put(`${process.env.REACT_APP_API_URL}/cuentas/${cuentaId}/rol`, { rolId: nuevoRol })
             .then(() => {
                 console.log('Rol actualizado correctamente');
                 setAlerta({ mensaje: 'Rol actualizado correctamente', tipo: 'success' });

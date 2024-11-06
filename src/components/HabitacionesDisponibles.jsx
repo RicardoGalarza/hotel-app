@@ -20,7 +20,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
     useEffect(() => {
         const fetchHabitaciones = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/habitaciones');
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
                 const data = response.data;
                 setHabitaciones(data);
                 fetchOpinionesPorHabitacion(data); // Cargar opiniones después de obtener habitaciones
@@ -31,7 +31,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
 
         const fetchCategorias = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/categorias');
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
                 const data = response.data;
                 setCategorias(data);
             } catch (error) {
@@ -42,7 +42,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         const fetchFavoritos = async () => {
             try {
                 const cuentaId = JSON.parse(localStorage.getItem('userId'));
-                const response = await axios.get(`http://localhost:8080/favoritos/cuenta/${cuentaId}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/favoritos/cuenta/${cuentaId}`);
                 setFavoritos(response.data);
             } catch (error) {
                 console.log('Error al cargar favoritos:', error);
@@ -65,7 +65,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         try {
             const opinionesData = {};
             for (const habitacion of habitaciones) {
-                const response = await axios.get(`http://localhost:8080/opiniones/habitacion/${habitacion.id}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/opiniones/habitacion/${habitacion.id}`);
                 const opiniones = response.data;
 
                 const totalEstrellas = opiniones.reduce((sum, opinion) => sum + opinion.estrellas, 0);
@@ -91,7 +91,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
 
         if (termino.length >= 3) {
             try {
-                const response = await axios.get(`http://localhost:8080/habitaciones/buscar?busqueda=${termino}`);
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
                 setSugerencias(response.data);
                 setHabitacionesMostradas(response.data);
             } catch (error) {
@@ -128,13 +128,13 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                 navigate('/login');
             } else {
                 if (esFavorito) {
-                    await axios.delete('http://localhost:8080/favoritos', {
+                    await axios.delete(`${process.env.REACT_APP_API_URL}/favoritos`, {
                         data: { cuentaId, habitacionId },
                         headers: { 'Content-Type': 'application/json' }
                     });
                     setFavoritos(favoritos.filter(fav => fav.habitacion.id !== habitacionId));
                 } else {
-                    const response = await axios.post('http://localhost:8080/favoritos', { cuentaId, habitacionId });
+                    const response = await axios.post(`${process.env.REACT_APP_API_URL}/favoritos`, { cuentaId, habitacionId });
                     setFavoritos([...favoritos, response.data]);
                 }
             }
@@ -197,7 +197,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                                 <div className="card h-100" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
                                     <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
                                         <img
-                                            src={`http://localhost:8080/${habitacion.id}/${habitacion.imagenes[0].nombre}`}
+                                            src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[0].nombre}`}
                                             alt={habitacion.nombre}
                                             className="img-fluid"
                                             style={{ height: '100%', width: '100%', objectFit: 'cover' }}
