@@ -28,6 +28,12 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             }
         };
 
+        useEffect(() => {
+            if (habitacionId && actualizarCalendario) {
+                fetchFechasNoDisponibles();
+            }
+        }, [habitacionId, actualizarCalendario]);
+
         const fetchCategorias = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
@@ -40,7 +46,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
 
         useEffect(() => {
             fetchFechasNoDisponibles();
-        }, [habitacionId, actualizarCalendario, fetchFechasNoDisponibles]);
+        }, [habitacionId, actualizarCalendario]);
 
         const fetchFavoritos = async () => {
             try {

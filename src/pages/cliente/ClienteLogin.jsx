@@ -47,6 +47,7 @@ const ClienteLogin = () => {
           'Content-Type': 'application/json',
         },
       });
+      
     
       if (!userResponse.ok) {
         //const userError = await userResponse.json();
@@ -62,9 +63,9 @@ const ClienteLogin = () => {
       // Redirigir a la página principal o dashboard
 
       
-      if(userData.rol.id == 1){
-        window.location.href === '/administracion';
-      }else{
+      if (userData.rol.id === 1) {
+        window.location.href = '/administracion'; // Asignación correcta para redirigir
+      } else {
         window.location.href = '/';
       }
 
