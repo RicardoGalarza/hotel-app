@@ -51,22 +51,26 @@ const Home = () => {
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(',');
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/filtrar`, {
-        params: {
-          destino: ciudadSeleccionada,
-          fechaLlegada: startDate ? startDate.toISOString().split('T')[0] : null,
-          fechaSalida: endDate ? endDate.toISOString().split('T')[0] : null,
-          adultos: guests.adults,
-          ninos: guests.children,
-          categoria: categoriasString || null,
-        },
-      });
-      setResultadosFiltrados(response.data);
+        const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(',');
+
+        // Realiza la solicitud de filtrado de habitaciones
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/filtrar`, {
+            params: {
+                destino: ciudadSeleccionada,
+                fechaLlegada: startDate ? startDate.toISOString().split('T')[0] : null,
+                fechaSalida: endDate ? endDate.toISOString().split('T')[0] : null,
+                adultos: guests.adults,
+                ninos: guests.children,
+                categoria: categoriasString || null,
+            },
+        });
+
+        // Asegúrate de manejar correctamente la respuesta
+        setResultadosFiltrados(response.data);
     } catch (error) {
-      console.error('Error al realizar la búsqueda:', error);
+        console.error('Error al realizar la búsqueda:', error);
     }
-  };
+};
 
   const handleGuestChange = (type, action) => {
     setGuests((prev) => ({
