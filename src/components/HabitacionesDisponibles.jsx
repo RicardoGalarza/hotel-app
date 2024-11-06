@@ -61,31 +61,40 @@ const HabitacionesDisponibles = () => {
         }
     };
 
-    
     const handleBusquedaChange = async (e) => {
-        const termino = e.target.value.trim(); // trim para eliminar espacios
+        const termino = e.target.value.trim();
         setTerminoBusqueda(termino);
 
         if (termino.length > 0) {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
-                if (response.data && response.data.length > 0) {
-                    setSugerencias(response.data);
-                    setHabitacionesMostradas(response.data);
+                // Verificar si el término de búsqueda corresponde a una ciudad
+                const ciudadResponse = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades?nombre=${termino}`);
+                if (ciudadResponse.data && ciudadResponse.data.length > 0) {
+                    // Si se encuentra una ciudad, buscar habitaciones por ciudad
+                    const ciudadId = ciudadResponse.data[0].id; // Obtener el ID de la ciudad
+                    const habitacionesPorCiudad = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
+                    setHabitacionesMostradas(habitacionesPorCiudad.data);
+                    setSugerencias(habitacionesPorCiudad.data);
                 } else {
-                    // Si no hay resultados, mostrar un mensaje adecuado
-                    setSugerencias([]);
-                    setHabitacionesMostradas([]); // o puedes usar un estado que muestre habitaciones por defecto
+                    // Si no es una ciudad, buscar habitaciones por nombre o criterio general
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
+                    if (response.data && response.data.length > 0) {
+                        setHabitacionesMostradas(response.data);
+                        setSugerencias(response.data);
+                    } else {
+                        setHabitacionesMostradas([]);
+                        setSugerencias([]);
+                    }
                 }
             } catch (error) {
                 console.error('Error al buscar habitaciones:', error);
+                setHabitacionesMostradas([]);
                 setSugerencias([]);
-                setHabitacionesMostradas([]); // Limpia los resultados en caso de error
             }
         } else {
-            // Si la búsqueda está vacía, restablece el estado original
+            // Si no hay término de búsqueda, restablecer la lista de habitaciones
+            setHabitacionesMostradas(habitaciones);
             setSugerencias([]);
-            setHabitacionesMostradas(habitaciones); // aquí volvemos al estado original de habitaciones
         }
     };
 
