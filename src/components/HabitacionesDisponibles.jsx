@@ -62,18 +62,27 @@ const HabitacionesDisponibles = () => {
     };
 
     const handleBusquedaChange = async (e) => {
-        const termino = e.target.value;
+        const termino = e.target.value.trim(); // trim para eliminar espacios
         setTerminoBusqueda(termino);
-
-        if (termino.length >= 3) {
+    
+        if (termino.length > 0) {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
-                setSugerencias(response.data);
-                setHabitacionesMostradas(response.data);
+                if (response.data && response.data.length > 0) {
+                    setSugerencias(response.data);
+                    setHabitacionesMostradas(response.data);
+                } else {
+                    // Si no hay resultados
+                    setSugerencias([]);
+                    setHabitacionesMostradas([]);
+                }
             } catch (error) {
                 console.error('Error al buscar habitaciones:', error);
+                setSugerencias([]);
+                setHabitacionesMostradas([]); // Limpia los resultados en caso de error
             }
         } else {
+            // Restablece el estado a habitaciones originales
             setSugerencias([]);
             setHabitacionesMostradas(habitaciones);
         }
