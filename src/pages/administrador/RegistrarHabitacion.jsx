@@ -108,9 +108,9 @@ const RegistrarHabitacion = () => {
         caracteristicasSeleccionadas.forEach(option => formData.append('caracteristicas', option.value));
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/habitaciones`, formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
+            // const response = await axios.post(`${process.env.REACT_APP_API_URL}/habitaciones`, formData, {
+            //     headers: { 'Content-Type': 'multipart/form-data' },
+            // });
 
             setAlerta({ mostrar: true, tipo: 'success', mensaje: '¡Habitación registrada con éxito!' });
             setTimeout(() => {

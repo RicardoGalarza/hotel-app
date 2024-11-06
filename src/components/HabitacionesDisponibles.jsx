@@ -4,10 +4,7 @@ import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
-    const [habitaciones, setHabitaciones] = useState([]);
-    const [categorias, setCategorias] = useState([]);
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
-    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState('');
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
     const habitacionesPorPagina = 10;
@@ -111,7 +108,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
 
     const indexOfLastHabitacion = currentPage * habitacionesPorPagina;
     const indexOfFirstHabitacion = indexOfLastHabitacion - habitacionesPorPagina;
-    const habitacionesActuales = habitacionesFiltradas.slice(indexOfFirstHabitacion, indexOfLastHabitacion);
 
     const paginacion = (numeroPagina) => {
         setCurrentPage(numeroPagina);
@@ -160,6 +156,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
                         value={terminoBusqueda}
                         onChange={handleBusquedaChange}
                         aria-haspopup="true"
+                        role="combobox"
                         aria-expanded={sugerencias.length > 0}
                     />
                     {sugerencias.length > 0 && (

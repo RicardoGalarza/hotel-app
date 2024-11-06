@@ -1,11 +1,10 @@
 // src/components/LoginAdmin.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const ClienteLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+
   const [errorMessage, setErrorMessage] = useState('');
 
   // Ejemplo de login en React
@@ -50,7 +49,7 @@ const ClienteLogin = () => {
       });
     
       if (!userResponse.ok) {
-        const userError = await userResponse.json();
+        //const userError = await userResponse.json();
         setErrorMessage('Error al obtener los permisos del usuario');
         return;
       }
@@ -64,7 +63,7 @@ const ClienteLogin = () => {
 
       
       if(userData.rol.id == 1){
-        window.location.href = '/administracion';
+        window.location.href === '/administracion';
       }else{
         window.location.href = '/';
       }

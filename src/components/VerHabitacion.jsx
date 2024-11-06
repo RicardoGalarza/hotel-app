@@ -72,7 +72,7 @@ const VerHabitacion = () => {
   };
 
   // Nueva función para manejar la administración de características
-  const handleCaracteristicas = (id) => {
+  //const handleCaracteristicas = (id) => {
     navigate(`/admin/habitacion/${id}/caracteristicas`);  // Redirige a la página de administración de características
   };
 

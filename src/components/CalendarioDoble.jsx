@@ -33,7 +33,7 @@ const CalendarioDoble = ({ habitacionId, onFechaSeleccionada, actualizarCalendar
   // Efecto para cargar las fechas al inicio y cuando `actualizarCalendario` cambie
   useEffect(() => {
     fetchFechasNoDisponibles();
-  }, [habitacionId, actualizarCalendario]);
+  }, [habitacionId, actualizarCalendario, fetchFechasNoDisponibles]);
 
   const generarDiasMes = (mes) => {
     const inicioMes = startOfMonth(mes);
