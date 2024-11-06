@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
     const [habitaciones, setHabitaciones] = useState([]);
-    
-    
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,16 +27,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
             }
         };
 
-        const fetchCategorias = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/categorias`);
-                const data = response.data;
-                setCategorias(data);
-            } catch (error) {
-                console.log('Error al cargar categorías:', error);
-            }
-        };
-
         const fetchFavoritos = async () => {
             try {
                 const cuentaId = JSON.parse(localStorage.getItem('userId'));
@@ -51,17 +39,8 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
 
         // Ejecutar las funciones una vez al montar el componente
         fetchHabitaciones();
-        fetchCategorias();
         fetchFavoritos();
     }, []);
-
-    useEffect(() => {
-        const habitacionesFiltradasPorCategoria = categoriaSeleccionada
-            ? habitaciones.filter(hab => hab.categoria === categoriaSeleccionada)
-            : habitaciones;
-
-        setHabitacionesMostradas(habitacionesFiltradasPorCategoria);
-    }, [categoriaSeleccionada, habitaciones]);
 
     const fetchOpinionesPorHabitacion = async (habitaciones) => {
         try {
@@ -110,8 +89,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas }) => {
         setHabitacionesMostradas([habitacion]);
         setSugerencias([]);
     };
-
-    
 
     const paginacion = (numeroPagina) => {
         setCurrentPage(numeroPagina);
