@@ -10,6 +10,7 @@ const ClienteLogin = () => {
   // Ejemplo de login en React
   const handleLogin = async (e) => {
     e.preventDefault();
+    
 
     try {
       // Llamada al endpoint de autenticación (primer endpoint)
