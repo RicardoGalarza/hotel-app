@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select'; // Importa react-select
+import Select from 'react-select';
 import HabitacionesDisponibles from '../components/HabitacionesDisponibles';
 
 const Home = () => {
@@ -44,33 +44,22 @@ const Home = () => {
       }
     };
 
-    const fetchHabitaciones = async () => {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/habitaciones`);
-        const data = await response.json();
-        setResultadosFiltrados(data);
-      } catch (error) {
-        console.log('Error al cargar habitaciones:', error);
-      }
-    };
-
     fetchCiudades();
     fetchCategorias();
-    fetchHabitaciones();
   }, []);
 
   const handleSearch = async (e) => {
     e.preventDefault();
     try {
-      const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(','); // Convertir las categorías seleccionadas en un string separado por comas
+      const categoriasString = categoriasSeleccionadas.map((cat) => cat.value).join(',');
       const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/filtrar`, {
         params: {
-          destino: ciudadSeleccionada, // Verifica que este valor esté bien definido y tenga el id correcto de la ciudad
+          destino: ciudadSeleccionada,
           fechaLlegada: startDate ? startDate.toISOString().split('T')[0] : null,
           fechaSalida: endDate ? endDate.toISOString().split('T')[0] : null,
           adultos: guests.adults,
           ninos: guests.children,
-          categoria: categoriasString,
+          categoria: categoriasString || null,
         },
       });
       setResultadosFiltrados(response.data);
