@@ -17,6 +17,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const fetchHabitaciones = useCallback(async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
+            console.log('Respuesta de habitaciones:', response.data); // Imprimir la respuesta
             setHabitaciones(response.data);
             setHabitacionesMostradas(response.data);
             fetchOpinionesPorHabitacion(response.data);
@@ -32,7 +33,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
         } else {
             fetchHabitaciones();
         }
-
         fetchFavoritos();
     }, [habitacionesFiltradas, fetchHabitaciones]);
 
@@ -185,6 +185,9 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
             {habitacionesPaginadas.length > 0 ? (
                 <div className="row">
                     {habitacionesPaginadas.map((habitacion) => {
+                        if (!habitacion || !habitacion.imagenes || habitacion.imagenes.length === 0) {
+                            return null; // Evitar el error si habitacion es undefined o no tiene imagenes
+                        }
                         const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
 
                         return (
