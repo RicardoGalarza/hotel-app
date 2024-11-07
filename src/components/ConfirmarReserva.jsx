@@ -14,29 +14,28 @@ const ConfirmarReserva = () => {
         if (reservaId) {
             axios.put(`${process.env.REACT_APP_API_URL}/reserva/confirmar?reservaId=${reservaId}`)
                 .then(response => {
-                    if (response.data === "Reserva confirmada con éxito.") {
+                    const { data } = response;
+                    if (data === "Reserva confirmada con éxito.") {
                         setMensaje(
                             <Alert variant="success" className="p-5 shadow rounded text-center">
-                                <h2 className="alert-heading">¡Reserva confirmada con éxito!</h2>
-                                <p className="mb-3">
-                                    Gracias por elegir nuestros servicios. Tu reserva ha sido confirmada y está lista.
-                                    Puedes revisar los detalles en tu cuenta o comunicarte con nosotros si necesitas asistencia.
+                                <h1 className="alert-heading">¡Reserva confirmada con éxito!</h1>
+                                <p className="mt-3 mb-4">
+                                    Gracias por confiar en nuestros servicios. Tu reserva ha sido confirmada con éxito. 
+                                    Puedes verificar los detalles accediendo a tu cuenta.
                                 </p>
-                                <hr />
-                                <Button variant="success" href="/mi-cuenta" className="mt-2">
-                                    Ver detalles en mi cuenta
+                                <Button variant="success" href="/mi-cuenta">
+                                    Ver detalles
                                 </Button>
                             </Alert>
                         );
-                    } else if (response.data === "La reserva ya estaba confirmada.") {
+                    } else if (data === "La reserva ya estaba confirmada.") {
                         setMensaje(
                             <Alert variant="warning" className="p-5 shadow rounded text-center">
-                                <h2 className="alert-heading">Reserva ya confirmada</h2>
-                                <p className="mb-3">
-                                    Esta reserva ya fue confirmada previamente. Si tienes alguna duda, no dudes en contactarnos.
+                                <h1 className="alert-heading">Reserva ya confirmada</h1>
+                                <p className="mt-3 mb-4">
+                                    Esta reserva ya había sido confirmada previamente. Si tienes preguntas, no dudes en contactarnos.
                                 </p>
-                                <hr />
-                                <Button variant="warning" href="/contacto" className="mt-2">
+                                <Button variant="warning" href="/contacto">
                                     Contactar soporte
                                 </Button>
                             </Alert>
@@ -44,30 +43,25 @@ const ConfirmarReserva = () => {
                     } else {
                         setMensaje(
                             <Alert variant="danger" className="p-5 shadow rounded text-center">
-                                <h2 className="alert-heading">Error al confirmar la reserva</h2>
-                                <p className="mb-3">
-                                    Hubo un problema al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde
-                                    o comunícate con nuestro equipo de soporte.
+                                <h1 className="alert-heading">Error al confirmar la reserva</h1>
+                                <p className="mt-3 mb-4">
+                                    Hubo un problema al procesar tu solicitud. Por favor, intenta de nuevo más tarde o comunícate con soporte.
                                 </p>
-                                <hr />
-                                <Button variant="danger" href="/contacto" className="mt-2">
+                                <Button variant="danger" href="/contacto">
                                     Contactar soporte
                                 </Button>
                             </Alert>
                         );
                     }
                 })
-                .catch(error => {
-                    console.error('Error al confirmar la reserva:', error);
+                .catch(() => {
                     setMensaje(
                         <Alert variant="danger" className="p-5 shadow rounded text-center">
-                            <h2 className="alert-heading">Error al confirmar la reserva</h2>
-                            <p className="mb-3">
-                                Hubo un problema al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde
-                                o comunícate con nuestro equipo de soporte.
+                            <h1 className="alert-heading">Error al confirmar la reserva</h1>
+                            <p className="mt-3 mb-4">
+                                Hubo un problema al procesar tu solicitud. Por favor, intenta de nuevo más tarde o comunícate con nuestro equipo de soporte.
                             </p>
-                            <hr />
-                            <Button variant="danger" href="/contacto" className="mt-2">
+                            <Button variant="danger" href="/contacto">
                                 Contactar soporte
                             </Button>
                         </Alert>
@@ -76,13 +70,11 @@ const ConfirmarReserva = () => {
         } else {
             setMensaje(
                 <Alert variant="danger" className="p-5 shadow rounded text-center">
-                    <h2 className="alert-heading">ID de reserva no válido</h2>
-                    <p className="mb-3">
-                        Parece que el ID de la reserva proporcionado no es válido.
-                        Por favor, verifica el enlace o comunícate con soporte para obtener ayuda.
+                    <h1 className="alert-heading">ID de reserva no válido</h1>
+                    <p className="mt-3 mb-4">
+                        Parece que el ID de la reserva proporcionado no es válido. Verifica el enlace o comunícate con soporte.
                     </p>
-                    <hr />
-                    <Button variant="danger" href="/contacto" className="mt-2">
+                    <Button variant="danger" href="/contacto">
                         Contactar soporte
                     </Button>
                 </Alert>
