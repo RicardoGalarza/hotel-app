@@ -87,6 +87,7 @@ const ConfirmarReserva = () => {
             {mensaje}
         </Container>
     );
+
 };
 
 export default ConfirmarReserva;
