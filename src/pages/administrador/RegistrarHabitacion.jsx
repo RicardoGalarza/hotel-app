@@ -211,4 +211,3 @@ const RegistrarHabitacion = () => {
 };
 
 export default RegistrarHabitacion;
-S
