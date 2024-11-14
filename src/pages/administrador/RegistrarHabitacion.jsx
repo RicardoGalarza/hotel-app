@@ -108,7 +108,7 @@ const RegistrarHabitacion = () => {
         caracteristicasSeleccionadas.forEach(option => formData.append('caracteristicas', option.value));
 
         try {
-            await axios.post(`${process.env.REACT_APP_API_URL}/habitaciones`, formData, {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/habitaciones`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
 
@@ -211,3 +211,4 @@ const RegistrarHabitacion = () => {
 };
 
 export default RegistrarHabitacion;
+S
