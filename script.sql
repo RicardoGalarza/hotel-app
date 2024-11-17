@@ -35,29 +35,51 @@ INSERT INTO ciudad (id, nombre) VALUES (2, 'Santiago');
 INSERT INTO ciudad (id, nombre) VALUES (3, 'Linares');
 
 INSERT INTO categoria (id, nombre, descripcion, fecha_creacion, ruta_imagen) VALUES
-(1, 'Deluxe', 'Habitaciones de lujo con vistas increíbles', '2024-11-03 12:00:00', 'deluxe.jpg'),
-(2, 'Económica', 'Habitaciones sencillas y asequibles', '2024-11-03 12:10:00', 'economica.jpg'),
-(3, 'Familiar', 'Habitaciones amplias para toda la familia', '2024-11-03 12:20:00', 'familiar.jpg'),
-(4, 'Suite', 'Suites con servicios exclusivos', '2024-11-03 12:30:00', 'suite.jpg'),
-(5, 'Negocios', 'Habitaciones equipadas para viajeros de negocios', '2024-11-03 12:40:00', 'negocios.jpg');
+(1, 'Lujo Urbano', 'Suites modernas con vistas espectaculares de la ciudad',),
+(2, 'Relax Playero', 'Habitaciones con vistas al mar y acceso a la playa',),
+(3, 'Exclusividad Total', 'Espacios amplios con servicios de lujo',),
+(4, 'Familiar y Confortable', 'Habitaciones ideales para familias y grupos'),
+(5, 'Vista al Cielo', 'Terrazas con piscina y vistas impresionantes',),
+(6, 'Romance y Relax', 'Habitaciones diseñadas para momentos especiales'),
+(7, 'Naturaleza y Aventura', 'Cabañas en entornos naturales',),
+(8, 'Moderno y Minimalista', 'Espacios para trabajar y descansar',),
+(9, 'Colonial e Histórico', 'Habitaciones con encanto clásico',),
+(10, 'Oasis en la Ciudad', 'Suites con jardines privados para desconectar');
 
 INSERT INTO caracteristica (nombre, imagen_nombre) VALUES
-('Wi-Fi gratis', 'wifi.jpg'),
-('Piscina', 'piscina.jpg'),
-('Desayuno incluido', 'desayuno.jpg'),
-('Estacionamiento', 'estacionamiento.jpg'),
-('Gimnasio', 'gimnasio.jpg');
+(1, 'Wi-Fi gratuito'),
+(2, 'Piscina'),
+(3, 'Desayuno',),
+(4, 'Spa',),
+(5, 'Gimnasio',),
+(6, 'Transporte al aeropuerto'),
+(7, 'Restaurante gourmet'),
+(8, 'Estacionamiento privado'),
+(9, 'Servicio a la habitación'),
+(10, 'Área de juegos',),
 
-INSERT INTO politica (id, titulo, descripcion) VALUES
-(1, 'Política de Cancelación', 'Cancelación gratuita hasta 24 horas antes de la llegada.'),
-(2, 'No Fumar', 'Prohibido fumar en las habitaciones y áreas cerradas.'),
-(3, 'Mascotas Permitidas', 'Las mascotas son bienvenidas con previo aviso.'),
-(4, 'Check-In y Check-Out', 'Check-in a partir de las 3 PM y check-out hasta las 11 AM.'),
-(5, 'Identificación Requerida', 'Se requiere una identificación válida al momento del check-in.');
+INSERT INTO politicas (id, descripcion, titulo)
+VALUES
+(1, 'Cancelación gratuita hasta 48 horas antes de la fecha de llegada.', 'Política de Cancelación'),
+(2, 'Prohibido fumar en todas las habitaciones y áreas comunes. Multa aplicable por incumplimiento.', 'No Fumar'),
+(3, 'Las mascotas son bienvenidas con un cargo adicional y previa notificación.', 'Mascotas Permitidas'),
+(4, 'Check-in a partir de las 3 PM y check-out antes de las 11 AM.', 'Check-in y Check-out'),
+(5, 'Todos los huéspedes deben presentar una identificación válida al momento del check-in.', 'Identificación Requerida'),
+(6, 'Horario de silencio obligatorio desde las 10 PM hasta las 8 AM para respetar el descanso.', 'Política de Silencio'),
+(7, 'No se permiten más huéspedes que los indicados en la reserva.', 'Capacidad Máxima'),
+(8, 'El uso de la piscina y gimnasio está reservado exclusivamente para los huéspedes registrados.', 'Uso de las Instalaciones'),
+(9, 'No se permiten fiestas ni reuniones en las habitaciones.', 'Prohibición de Fiestas'),
+(10, 'Se requiere un depósito de seguridad reembolsable al momento del check-in.', 'Depósito de Seguridad');
+
 
 INSERT INTO ciudad (nombre) VALUES
-('Santiago'),
-('Valparaíso'),
-('Concepción'),
-('La Serena'),
-('Punta Arenas');
+(1, 'Hotel Sheraton Santiago'),
+(2, 'Hotel Diego de Almagro Antofagasta'),
+(3, 'Hotel Dreams Araucanía'),
+(4, 'Hotel Casino Antay'),
+(5, 'Hotel Cumbres Puerto Varas'),
+(6, 'Hotel Terrado Suites Iquique'),
+(7, 'Hotel Enjoy Coquimbo'),
+(8, 'Hotel Alto Atacama'),
+(9, 'Hotel Dreams Punta Arenas'),
+(10, 'Hotel O\Higgins');
