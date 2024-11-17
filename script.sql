@@ -30,6 +30,19 @@ INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 11);
 INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 12);
 INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 13);
 
+INSERT INTO ciudad (nombre) VALUES
+(1, 'Hotel Sheraton Santiago'),
+(2, 'Hotel Diego de Almagro Antofagasta'),
+(3, 'Hotel Dreams Araucanía'),
+(4, 'Hotel Casino Antay'),
+(5, 'Hotel Cumbres Puerto Varas'),
+(6, 'Hotel Terrado Suites Iquique'),
+(7, 'Hotel Enjoy Coquimbo'),
+(8, 'Hotel Alto Atacama'),
+(9, 'Hotel Dreams Punta Arenas'),
+(10, 'Hotel O\Higgins');
+
+
 INSERT INTO categoria (id, nombre, descripcion, fecha_creacion, nombre_imagen)
 VALUES
 (1, 'Lujo Urbano', 'Suites modernas con vistas espectaculares de la ciudad', CURRENT_DATE, 'Lujo Urbano'),
@@ -42,19 +55,6 @@ VALUES
 (8, 'Moderno y Minimalista', 'Espacios para trabajar y descansar', CURRENT_DATE, 'Moderno y Minimalista'),
 (9, 'Colonial e Histórico', 'Habitaciones con encanto clásico', CURRENT_DATE, 'Colonial e Histórico'),
 (10, 'Oasis en la Ciudad', 'Suites con jardines privados para desconectar', CURRENT_DATE, 'Oasis en la Ciudad');
-
-
-INSERT INTO caracteristica (nombre, imagen_nombre) VALUES
-(1, 'Wi-Fi gratuito'),
-(2, 'Piscina'),
-(3, 'Desayuno',),
-(4, 'Spa',),
-(5, 'Gimnasio',),
-(6, 'Transporte al aeropuerto'),
-(7, 'Restaurante gourmet'),
-(8, 'Estacionamiento privado'),
-(9, 'Servicio a la habitación'),
-(10, 'Área de juegos',),
 
 INSERT INTO politicas (id, descripcion, titulo)
 VALUES
@@ -70,14 +70,18 @@ VALUES
 (10, 'Se requiere un depósito de seguridad reembolsable al momento del check-in.', 'Depósito de Seguridad');
 
 
-INSERT INTO ciudad (nombre) VALUES
-(1, 'Hotel Sheraton Santiago'),
-(2, 'Hotel Diego de Almagro Antofagasta'),
-(3, 'Hotel Dreams Araucanía'),
-(4, 'Hotel Casino Antay'),
-(5, 'Hotel Cumbres Puerto Varas'),
-(6, 'Hotel Terrado Suites Iquique'),
-(7, 'Hotel Enjoy Coquimbo'),
-(8, 'Hotel Alto Atacama'),
-(9, 'Hotel Dreams Punta Arenas'),
-(10, 'Hotel O\Higgins');
+INSERT INTO caracteristica (nombre, imagen_nombre) VALUES
+(1, 'Wi-Fi gratuito'),
+(2, 'Piscina'),
+(3, 'Desayuno',),
+(4, 'Spa',),
+(5, 'Gimnasio',),
+(6, 'Transporte al aeropuerto'),
+(7, 'Restaurante gourmet'),
+(8, 'Estacionamiento privado'),
+(9, 'Servicio a la habitación'),
+(10, 'Área de juegos',),
+
+
+
+
