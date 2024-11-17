@@ -100,7 +100,8 @@ const GaleriaCompleta = () => {
 
                     {/* Imagen principal */}
                     <img
-                        src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[currentImageIndex].nombre}`}
+                        // src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[currentImageIndex].nombre}`}
+                        src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[currentImageIndex].url}`}
                         alt={`Imagen ${currentImageIndex + 1}`}
                         className={`w-100 ${isZoomed ? "zoomed" : ""}`}
                         style={{

@@ -303,7 +303,7 @@ const VerDetalles = () => {
                 <div className="col-md-6">
                     <div className="card h-100 zoom">
                         <img
-                            src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[0].nombre}`}
+                            src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
                             alt="Imagen principal"
                             className="img-fluid"
                             style={{ width: '100%', height: '400px', objectFit: 'cover' }}
