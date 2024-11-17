@@ -195,7 +195,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                 <div className="card h-100" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
                                     <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
                                         <img
-                                            src={`${habitacion.url}`}
+                                            src={`${process.env.BUCKET_HABITACIONES}/${habitacion.imagenes[0].url}`}
                                             alt={habitacion.nombre}
                                             className="img-fluid"
                                             style={{ height: '100%', width: '100%', objectFit: 'cover' }}
