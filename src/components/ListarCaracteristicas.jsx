@@ -48,7 +48,7 @@ const ListarCaracteristicas = () => {
                 <td>
                   {caracteristica.imagenNombre ? (
                     <img
-                      src={`${process.env.REACT_APP_API_URL}/${caracteristica.id}/${caracteristica.imagenNombre}`}
+                      src={`https://storage.googleapis.com/habitaciones/${caracteristica.imagenNombre}`}
                       alt={caracteristica.nombre}
                       style={{ width: '50px', height: 'auto' }}
                     />

@@ -351,7 +351,7 @@ const VerDetalles = () => {
                             caracteristicas.map((caracteristica) => (
                                 <div className="col-6 col-md-4 mb-3 d-flex align-items-center" key={caracteristica.id}>
                                     <img
-                                        src={`${process.env.REACT_APP_API_URL}/caracteristicas/${caracteristica.id}/${caracteristica.imagenNombre}`}
+                                        src={`https://storage.googleapis.com/habitaciones/${caracteristica.imagenNombre}`}
                                         alt={caracteristica.nombre}
                                         style={{ width: '24px', height: '24px', marginRight: '8px' }}
                                     />
