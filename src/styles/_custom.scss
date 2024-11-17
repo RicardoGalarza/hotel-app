@@ -40,6 +40,11 @@ $dark: #010000; // Puedes cambiarlo si tienes un color diferente para dark
     color: #60b517; /* Verde */
   }
   
+  @media (max-width: 768px) {
+    .miClase {
+      font-size: 12px;
+    }
+  }
   
   
 
