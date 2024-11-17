@@ -30,21 +30,19 @@ INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 11);
 INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 12);
 INSERT INTO rol_permiso (rol_id, permiso_id) VALUES (1, 13);
 
-INSERT INTO ciudad (id, nombre) VALUES (1, 'Talca');
-INSERT INTO ciudad (id, nombre) VALUES (2, 'Santiago');
-INSERT INTO ciudad (id, nombre) VALUES (3, 'Linares');
+INSERT INTO categoria (id, nombre, descripcion, fecha_creacion, nombre_imagen)
+VALUES
+(1, 'Lujo Urbano', 'Suites modernas con vistas espectaculares de la ciudad', CURRENT_DATE, 'Lujo Urbano'),
+(2, 'Relax Playero', 'Habitaciones con vistas al mar y acceso a la playa', CURRENT_DATE, 'Relax Playero'),
+(3, 'Exclusividad Total', 'Espacios amplios con servicios de lujo', CURRENT_DATE, 'Exclusividad Total'),
+(4, 'Familiar y Confortable', 'Habitaciones ideales para familias y grupos', CURRENT_DATE, 'Familiar y Confortable'),
+(5, 'Vista al Cielo', 'Terrazas con piscina y vistas impresionantes', CURRENT_DATE, 'Vista al Cielo'),
+(6, 'Romance y Relax', 'Habitaciones diseñadas para momentos especiales', CURRENT_DATE, 'Romance y Relax'),
+(7, 'Naturaleza y Aventura', 'Cabañas en entornos naturales', CURRENT_DATE, 'Naturaleza y Aventura'),
+(8, 'Moderno y Minimalista', 'Espacios para trabajar y descansar', CURRENT_DATE, 'Moderno y Minimalista'),
+(9, 'Colonial e Histórico', 'Habitaciones con encanto clásico', CURRENT_DATE, 'Colonial e Histórico'),
+(10, 'Oasis en la Ciudad', 'Suites con jardines privados para desconectar', CURRENT_DATE, 'Oasis en la Ciudad');
 
-INSERT INTO categoria (id, nombre, descripcion, fecha_creacion, ruta_imagen) VALUES
-(1, 'Lujo Urbano', 'Suites modernas con vistas espectaculares de la ciudad',),
-(2, 'Relax Playero', 'Habitaciones con vistas al mar y acceso a la playa',),
-(3, 'Exclusividad Total', 'Espacios amplios con servicios de lujo',),
-(4, 'Familiar y Confortable', 'Habitaciones ideales para familias y grupos'),
-(5, 'Vista al Cielo', 'Terrazas con piscina y vistas impresionantes',),
-(6, 'Romance y Relax', 'Habitaciones diseñadas para momentos especiales'),
-(7, 'Naturaleza y Aventura', 'Cabañas en entornos naturales',),
-(8, 'Moderno y Minimalista', 'Espacios para trabajar y descansar',),
-(9, 'Colonial e Histórico', 'Habitaciones con encanto clásico',),
-(10, 'Oasis en la Ciudad', 'Suites con jardines privados para desconectar');
 
 INSERT INTO caracteristica (nombre, imagen_nombre) VALUES
 (1, 'Wi-Fi gratuito'),
