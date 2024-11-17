@@ -71,7 +71,7 @@ const GaleriaCompleta = () => {
                 {habitacion.imagenes.map((imagen, index) => (
                     <div className="col-md-4 mb-4" key={index}>
                         <img
-                            src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes.url}`}
+                            src={`https://storage.googleapis.com/habitaciones/${imagen.url}`}
                             alt={`Imagen ${index + 1}`}
                             className="img-fluid"
                             style={{ width: "100%", height: "200px", objectFit: "cover", cursor: "pointer" }}
