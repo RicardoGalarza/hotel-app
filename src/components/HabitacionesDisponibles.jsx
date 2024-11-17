@@ -184,63 +184,63 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
 
             {habitacionesPaginadas.length > 0 ? (
                 <div className="row">
-                    {habitacionesPaginadas.map((habitacion) => {
-                        if (!habitacion || !habitacion.imagenes || habitacion.imagenes.length === 0) {
-                            return null; // Evitar el error si habitacion es undefined o no tiene imagenes
-                        }
-                        const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
-
-                        return (
-                            <div className="col-md-6 mb-4" key={habitacion.id}>
-                                <div className="card h-100" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
-                                    <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
-                                        <img
-                                            src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
-                                            alt={habitacion.nombre}
-                                            className="img-fluid"
-                                            style={{ height: '100%', width: '100%', objectFit: 'cover' }}
-                                        />
-                                        <button
-                                            onClick={() => toggleFavorito(habitacion.id)}
-                                            className="btn"
-                                            style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent' }}
-                                        >
-                                            <i className="fa" style={{ color: esFavorito(habitacion.id) ? 'red' : 'grey', fontSize: '24px' }}>
-                                                ♥
-                                            </i>
-                                        </button>
-                                    </div>
-
-                                    <div className="card-body" style={{ flex: '1 0 60%', padding: '15px', overflow: 'hidden', height: '250px' }}>
-                                        <h5 className="card-title">{habitacion.nombre}</h5>
-                                        <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
-                                        <div className="d-flex justify-content-start align-items-center mb-3">
-                                            <span className="badge" style={{ fontSize: '1.2rem', marginRight: '0.5rem', backgroundColor: '#28a745', color: '#fff', padding: '5px 10px' }}>
-                                                {promedioEstrellas}
+                {habitacionesPaginadas.map((habitacion) => {
+                    if (!habitacion || !habitacion.imagenes || habitacion.imagenes.length === 0) {
+                        return null; // Evitar el error si habitacion es undefined o no tiene imagenes
+                    }
+                    const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
+            
+                    return (
+                        <div className="col-12 col-sm-6 col-md-4 mb-4" key={habitacion.id}>
+                            <div className="card h-100" style={{ borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
+                                <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
+                                    <img
+                                        src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
+                                        alt={habitacion.nombre}
+                                        className="img-fluid"
+                                        style={{ height: '100%', width: '100%', objectFit: 'cover' }}
+                                    />
+                                    <button
+                                        onClick={() => toggleFavorito(habitacion.id)}
+                                        className="btn"
+                                        style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent' }}
+                                    >
+                                        <i className="fa" style={{ color: esFavorito(habitacion.id) ? 'red' : 'grey', fontSize: '24px' }}>
+                                            ♥
+                                        </i>
+                                    </button>
+                                </div>
+            
+                                <div className="card-body" style={{ flex: '1 0 60%', padding: '15px', overflow: 'hidden', height: '250px' }}>
+                                    <h5 className="card-title">{habitacion.nombre}</h5>
+                                    <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
+                                    <div className="d-flex justify-content-start align-items-center mb-3">
+                                        <span className="badge" style={{ fontSize: '1.2rem', marginRight: '0.5rem', backgroundColor: '#28a745', color: '#fff', padding: '5px 10px' }}>
+                                            {promedioEstrellas}
+                                        </span>
+                                        <div className="d-flex flex-column ms-2">
+                                            <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#6C757D' }}>
+                                                {promedioEstrellas >= 4 ? 'Excelente' : 'Buena'}
                                             </span>
-                                            <div className="d-flex flex-column ms-2">
-                                                <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#6C757D' }}>
-                                                    {promedioEstrellas >= 4 ? 'Excelente' : 'Buena'}
-                                                </span>
-                                                <span className="text-muted">
-                                                    {cantidadOpiniones} opiniones
-                                                </span>
-                                            </div>
+                                            <span className="text-muted">
+                                                {cantidadOpiniones} opiniones
+                                            </span>
                                         </div>
-                                        <div className="d-flex justify-content-between align-items-end">
-                                            <strong style={{ fontSize: '1.4rem', color: '#333' }}>
-                                                ${habitacion.precio.toLocaleString('es-ES')} CLP
-                                            </strong>
-                                            <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
-                                                Ver Detalles
-                                            </a>
-                                        </div>
+                                    </div>
+                                    <div className="d-flex justify-content-between align-items-end">
+                                        <strong style={{ fontSize: '1.4rem', color: '#333' }}>
+                                            ${habitacion.precio.toLocaleString('es-ES')} CLP
+                                        </strong>
+                                        <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
+                                            Ver Detalles
+                                        </a>
                                     </div>
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
+                        </div>
+                    );
+                })}
+            </div>
             ) : (
                 <div className="alert alert-warning" role="alert">
                     No se encontraron habitaciones disponibles.
