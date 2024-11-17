@@ -110,7 +110,7 @@ const Favoritos = () => {
                                     }}
                                 >
                                     <img
-                                        src={`${process.env.REACT_APP_API_URL}/${favorito.habitacion.id}/${favorito.habitacion.imagenes[0].nombre}`}
+                                        src={`https://storage.googleapis.com/habitaciones/${favorito.habitacion.imagenes[0].url}`}
                                         alt={favorito.habitacion.nombre}
                                         className="img-fluid"
                                         style={{ height: '100%', width: '100%', objectFit: 'cover' }}
