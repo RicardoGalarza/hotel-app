@@ -195,7 +195,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                 <div className="card h-100" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
                                     <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
                                         <img
-                                            src={`${process.env.REACT_APP_API_URL}/${habitacion.id}/${habitacion.imagenes[0].nombre}`}
+                                            src={`${habitacion.url}`}
                                             alt={habitacion.nombre}
                                             className="img-fluid"
                                             style={{ height: '100%', width: '100%', objectFit: 'cover' }}
