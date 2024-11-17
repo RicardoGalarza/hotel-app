@@ -91,7 +91,7 @@ const HistorialReservas = () => {
                                     {reserva.habitacion.imagenes.map((imagen) => (
                                         <img
                                             key={imagen.id}
-                                            src={`${process.env.REACT_APP_API_URL}/${reserva.habitacion.id}/${imagen.nombre}`}
+                                            src={`https://storage.googleapis.com/habitaciones/${imagen.url}`}
                                             alt={imagen.nombre}
                                             className="img-thumbnail m-2"
                                             style={{ width: '100px', height: '100px' }}
