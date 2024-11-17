@@ -76,9 +76,9 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                 const ciudadResponse = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades?nombre=${termino}`);
                 if (ciudadResponse.data && ciudadResponse.data.length > 0) {
                     const ciudadId = ciudadResponse.data[0].id;
-                    const habitacionesPorCiudad = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
-                    setHabitacionesMostradas(habitacionesPorCiudad.data);
-                    setSugerencias(habitacionesPorCiudad.data);
+                    await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
+                    setHabitacionesMostradas([]);
+                    setSugerencias([]);
                 } else {
                     const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
                     if (response.data && response.data.length > 0) {
