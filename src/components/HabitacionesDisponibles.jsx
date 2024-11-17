@@ -1,5 +1,4 @@
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -18,7 +17,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const fetchHabitaciones = useCallback(async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
-            console.log('Respuesta de habitaciones:', response.data);
+            console.log('Respuesta de habitaciones:', response.data); // Imprimir la respuesta
             setHabitaciones(response.data);
             setHabitacionesMostradas(response.data);
             fetchOpinionesPorHabitacion(response.data);
@@ -77,7 +76,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                 const ciudadResponse = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades?nombre=${termino}`);
                 if (ciudadResponse.data && ciudadResponse.data.length > 0) {
                     const ciudadId = ciudadResponse.data[0].id;
-                    const habitacionesPorCiudad = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
+                    const habitacionesPorCiudad =await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
                     setHabitacionesMostradas(habitacionesPorCiudad.data);
                     setSugerencias(habitacionesPorCiudad.data);
                 } else {
@@ -149,7 +148,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
             <h2 className="text-center mb-4">Habitaciones Disponibles</h2>
 
             <div className="mb-4 d-flex justify-content-center align-items-center">
-                <div className="input-group" style={{ width: '100%', maxWidth: '400px', position: 'relative' }}>
+                <div className="input-group" style={{ width: '40%', position: 'relative' }}>
                     <input
                         type="text"
                         className="form-control"
@@ -187,14 +186,14 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                 <div className="row">
                     {habitacionesPaginadas.map((habitacion) => {
                         if (!habitacion || !habitacion.imagenes || habitacion.imagenes.length === 0) {
-                            return null;
+                            return null; // Evitar el error si habitacion es undefined o no tiene imagenes
                         }
                         const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
 
                         return (
-                            <div className="col-12 col-sm-6 col-md-4 col-lg-3 mb-4" key={habitacion.id}>
-                                <div className="card h-100" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: '15px', overflow: 'hidden' }}>
-                                    <div style={{ width: '100%', height: '150px', overflow: 'hidden' }}>
+                            <div className="col-md-6 mb-4" key={habitacion.id}>
+                                <div className="card h-100" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
+                                    <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
                                         <img
                                             src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
                                             alt={habitacion.nombre}
@@ -212,10 +211,10 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                         </button>
                                     </div>
 
-                                    <div className="card-body text-center" style={{ flex: '1', padding: '10px', overflow: 'hidden' }}>
+                                    <div className="card-body" style={{ flex: '1 0 60%', padding: '15px', overflow: 'hidden', height: '250px' }}>
                                         <h5 className="card-title">{habitacion.nombre}</h5>
                                         <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
-                                        <div className="d-flex justify-content-center align-items-center mb-3">
+                                        <div className="d-flex justify-content-start align-items-center mb-3">
                                             <span className="badge" style={{ fontSize: '1.2rem', marginRight: '0.5rem', backgroundColor: '#28a745', color: '#fff', padding: '5px 10px' }}>
                                                 {promedioEstrellas}
                                             </span>
@@ -228,11 +227,11 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="d-flex justify-content-between align-items-center">
+                                        <div className="d-flex justify-content-between align-items-end">
                                             <strong style={{ fontSize: '1.4rem', color: '#333' }}>
                                                 ${habitacion.precio.toLocaleString('es-ES')} CLP
                                             </strong>
-                                            <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 10px' }}>
+                                            <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
                                                 Ver Detalles
                                             </a>
                                         </div>
