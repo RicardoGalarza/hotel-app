@@ -97,7 +97,7 @@ const VerCategorias = () => {
                                 <td>
                                     {categoria.nombreImagen ? (
                                         <img
-                                            src={`${process.env.REACT_APP_API_URL}/${categoria.nombreImagen}`}
+                                            src={`https://storage.googleapis.com/habitaciones/${categoria.nombreImagen}`}
                                             alt={categoria.nombre}
                                             style={{ width: '50px', height: 'auto' }}
                                         />
