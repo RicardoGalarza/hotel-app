@@ -191,7 +191,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                         const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
 
                         return (
-                            <div className="col-md-6 mb-4" key={habitacion.id}>
+                            <div className="col-12 col-sm-6 col-md-4 mb-4" key={habitacion.id}>
                                 <div className="card h-100" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', borderRadius: '15px', overflow: 'hidden', width: '100%' }}>
                                     <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden' }}>
                                         <img
