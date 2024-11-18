@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [habitaciones, setHabitaciones] = useState([]);
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
+    const [rotatedHabitaciones, setRotatedHabitaciones] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-    const [rotatingIndexes, setRotatingIndexes] = useState([]); // Usar rotatingIndexes
-    const habitacionesPorPagina = 10; // Ajustar para mostrar 10 habitaciones
+    const habitacionesPorPagina = 10;
     const [favoritos, setFavoritos] = useState([]);
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
@@ -20,6 +20,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
             setHabitaciones(response.data);
             setHabitacionesMostradas(response.data);
+            setRotatedHabitaciones(response.data);
             fetchOpinionesPorHabitacion(response.data);
         } catch (error) {
             console.error('Error al cargar habitaciones:', error);
@@ -30,11 +31,24 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
         if (habitacionesFiltradas.length > 0) {
             setHabitaciones(habitacionesFiltradas);
             setHabitacionesMostradas(habitacionesFiltradas);
+            setRotatedHabitaciones(habitacionesFiltradas);
         } else {
             fetchHabitaciones();
         }
         fetchFavoritos();
     }, [habitacionesFiltradas, fetchHabitaciones]);
+
+    // Rotar las habitaciones cada 5 segundos
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setRotatedHabitaciones((prevHabitaciones) => {
+                const [first, ...rest] = prevHabitaciones;
+                return [...rest, first];
+            });
+        }, 5000); // Cambiar cada 5 segundos
+
+        return () => clearInterval(interval);
+    }, []);
 
     const fetchFavoritos = async () => {
         try {
@@ -67,21 +81,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
         }
     };
 
-    // Rotar tarjetas al cargar
-    useEffect(() => {
-        let timeoutIds = [];
-        habitacionesMostradas.forEach((_, index) => {
-            const timeoutId = setTimeout(() => {
-                setRotatingIndexes((prev) => [...prev, index]);
-            }, index * 300); // Retraso de 300 ms entre rotaciones
-            timeoutIds.push(timeoutId);
-        });
-
-        return () => {
-            timeoutIds.forEach(clearTimeout);
-        };
-    }, [habitacionesMostradas]);
-
     const handleBusquedaChange = async (e) => {
         const termino = e.target.value.trim();
         setTerminoBusqueda(termino);
@@ -93,24 +92,29 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                     const ciudadId = ciudadResponse.data[0].id;
                     const habitacionesPorCiudad = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
                     setHabitacionesMostradas(habitacionesPorCiudad.data);
+                    setRotatedHabitaciones(habitacionesPorCiudad.data);
                     setSugerencias(habitacionesPorCiudad.data);
                 } else {
                     const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
                     if (response.data && response.data.length > 0) {
                         setHabitacionesMostradas(response.data);
+                        setRotatedHabitaciones(response.data);
                         setSugerencias(response.data);
                     } else {
                         setHabitacionesMostradas([]);
+                        setRotatedHabitaciones([]);
                         setSugerencias([]);
                     }
                 }
             } catch (error) {
                 console.error('Error al buscar habitaciones:', error);
                 setHabitacionesMostradas([]);
+                setRotatedHabitaciones([]);
                 setSugerencias([]);
             }
         } else {
             setHabitacionesMostradas(habitaciones);
+            setRotatedHabitaciones(habitaciones);
             setSugerencias([]);
         }
     };
@@ -118,6 +122,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const handleSugerenciaClick = (habitacion) => {
         setTerminoBusqueda(habitacion.nombre);
         setHabitacionesMostradas([habitacion]);
+        setRotatedHabitaciones([habitacion]);
         setSugerencias([]);
     };
 
@@ -128,7 +133,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const totalPaginas = Math.ceil(habitacionesMostradas.length / habitacionesPorPagina);
     const indexOfLastHabitacion = currentPage * habitacionesPorPagina;
     const indexOfFirstHabitacion = indexOfLastHabitacion - habitacionesPorPagina;
-    const habitacionesPaginadas = habitacionesMostradas.slice(indexOfFirstHabitacion, indexOfLastHabitacion);
+    const habitacionesPaginadas = rotatedHabitaciones.slice(indexOfFirstHabitacion, indexOfLastHabitacion);
 
     const toggleFavorito = async (habitacionId) => {
         const cuentaId = parseInt(localStorage.getItem('userId'), 10);
@@ -199,19 +204,14 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
 
             {habitacionesPaginadas.length > 0 ? (
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4">
-                    {habitacionesPaginadas.map((habitacion, index) => {
+                    {habitacionesPaginadas.map((habitacion) => {
                         if (!habitacion || !habitacion.imagenes || habitacion.imagenes.length === 0) {
                             return null;
                         }
                         const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
-                        const isVisible = rotatingIndexes.includes(index);
 
                         return (
-                            <div
-                                className="col mb-4"
-                                key={habitacion.id}
-                                style={{ opacity: isVisible ? 1 : 0, transition: 'opacity 0.5s' }}
-                            >
+                            <div className="col mb-4" key={habitacion.id}>
                                 <div className="card h-100" style={{ borderRadius: '15px', overflow: 'hidden' }}>
                                     <div style={{ height: '250px', overflow: 'hidden' }}>
                                         <img
