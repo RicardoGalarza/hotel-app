@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
+
 const HistorialReservas = () => {
     const [reservas, setReservas] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    
 
     // Estado para la paginación
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,8 +31,11 @@ const HistorialReservas = () => {
 
     // Función para formatear la fecha
     const formatDate = (dateString) => {
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-        return new Date(dateString).toLocaleDateString('es-ES', options);
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses en JavaScript van de 0 a 11
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
     };
 
     // Calcular los índices de inicio y fin para la paginación
