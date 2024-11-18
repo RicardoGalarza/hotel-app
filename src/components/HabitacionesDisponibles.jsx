@@ -40,14 +40,14 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
 
     // Rotar las habitaciones cada 5 segundos
     useEffect(() => {
-        const interval = setInterval(() => {
-            setRotatedHabitaciones((prevHabitaciones) => {
+        // Reorganizamos las habitaciones una sola vez al cargar la página
+        setRotatedHabitaciones((prevHabitaciones) => {
+            if (prevHabitaciones.length > 0) {
                 const [first, ...rest] = prevHabitaciones;
                 return [...rest, first];
-            });
-        }, 5000); // Cambiar cada 5 segundos
-
-        return () => clearInterval(interval);
+            }
+            return prevHabitaciones;
+        });
     }, []);
 
     const fetchFavoritos = async () => {
