@@ -8,7 +8,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-    const habitacionesPorPagina = 10; // Mostrar 10 habitaciones por página
+    const habitacionesPorPagina = 4; // Para mostrar 2 filas de 2 columnas
     const [favoritos, setFavoritos] = useState([]);
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
@@ -182,17 +182,17 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
             </div>
 
             {habitacionesPaginadas.length > 0 ? (
-                <div className="row row-cols-1 row-cols-md-2 g-4">
+                <div className="row">
                     {habitacionesPaginadas.map((habitacion) => {
                         if (!habitacion || !habitacion.imagenes || habitacion.imagenes.length === 0) {
-                            return null; // Evitar el error si habitacion es undefined o no tiene imagenes
+                            return null;
                         }
                         const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
 
                         return (
-                            <div className="col" key={habitacion.id}>
+                            <div className="col-12 col-md-6 mb-4" key={habitacion.id}>
                                 <div className="card h-100 d-flex flex-row" style={{ borderRadius: '15px', overflow: 'hidden' }}>
-                                    <div style={{ flex: '1', minWidth: '200px', maxWidth: '250px', overflow: 'hidden' }}>
+                                    <div style={{ flex: '1 0 40%', height: 'auto', overflow: 'hidden' }}>
                                         <img
                                             src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
                                             alt={habitacion.nombre}
@@ -209,8 +209,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                             </i>
                                         </button>
                                     </div>
-
-                                    <div className="card-body d-flex flex-column" style={{ flex: '2' }}>
+                                    <div className="card-body" style={{ flex: '1 0 60%', padding: '15px' }}>
                                         <h5 className="card-title">{habitacion.nombre}</h5>
                                         <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
                                         <div className="d-flex justify-content-start align-items-center mb-3">
@@ -226,7 +225,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="d-flex justify-content-between align-items-end mt-auto">
+                                        <div className="d-flex justify-content-between align-items-end">
                                             <strong style={{ fontSize: '1.4rem', color: '#333' }}>
                                                 ${habitacion.precio.toLocaleString('es-ES')} CLP
                                             </strong>
@@ -246,7 +245,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                 </div>
             )}
 
-            <Pagination className="justify-content-center mt-4">
+            <Pagination className="justify-content-center">
                 <Pagination.First onClick={() => paginacion(1)} disabled={currentPage === 1} />
                 {[...Array(totalPaginas)].map((_, index) => (
                     <Pagination.Item
