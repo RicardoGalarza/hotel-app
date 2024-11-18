@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Administrador = () => {
     const [isMobile, setIsMobile] = useState(false);
@@ -22,16 +22,6 @@ const Administrador = () => {
         }
     }, []);
 
-    const handleLinkClick = (e, path) => {
-        const isLoggedIn = localStorage.getItem('isAdmin');
-        if (isLoggedIn !== 'true') {
-            e.preventDefault();
-            navigate('/administración');
-        } else {
-            navigate(path);
-        }
-    };
-
     if (isMobile) {
         return (
             <div className="container mt-5">
@@ -50,24 +40,16 @@ const Administrador = () => {
                 <p>Aquí puedes acceder a todas las funciones desarrolladas para la administración de tu negocio.</p>
                 <ul>
                     <li>
-                        <a href="/admin/crearhabitacion" onClick={(e) => handleLinkClick(e, '/admin/crearhabitacion')}>
-                            Crear Habitación
-                        </a>
+                        <Link to="/admin/crearhabitacion">Crear Habitación</Link>
                     </li>
                     <li>
-                        <a href="/admin/verhabitacion" onClick={(e) => handleLinkClick(e, '/admin/verhabitacion')}>
-                            Ver Habitaciones
-                        </a>
+                        <Link to="/admin/verhabitacion">Ver Habitaciones</Link>
                     </li>
                     <li>
-                        <a href="/admin/crear-categoria" onClick={(e) => handleLinkClick(e, '/admin/crear-categoria')}>
-                            Crear Categoría
-                        </a>
+                        <Link to="/admin/crear-categoria">Crear Categoría</Link>
                     </li>
                     <li>
-                        <a href="/admin/ver-categorias" onClick={(e) => handleLinkClick(e, '/admin/ver-categorias')}>
-                            Ver Categorías
-                        </a>
+                        <Link to="/admin/ver-categorias">Ver Categorías</Link>
                     </li>
                 </ul>
                 <em>Nota: Esta página no es accesible desde dispositivos móviles.</em>
