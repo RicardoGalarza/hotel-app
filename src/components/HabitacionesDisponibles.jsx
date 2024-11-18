@@ -12,6 +12,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [favoritos, setFavoritos] = useState([]);
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
+    const [rotatingIndexes, setRotatingIndexes] = useState([]);
     const navigate = useNavigate();
 
     const fetchHabitaciones = useCallback(async () => {
