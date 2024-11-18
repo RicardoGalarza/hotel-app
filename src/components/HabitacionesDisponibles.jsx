@@ -20,7 +20,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
             const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones`);
             setHabitaciones(response.data);
             setHabitacionesMostradas(response.data);
-            setRotatedHabitaciones(response.data);
+            setRotatedHabitaciones(shuffleArray(response.data)); // Mezcla aleatoria al cargar
             fetchOpinionesPorHabitacion(response.data);
         } catch (error) {
             console.error('Error al cargar habitaciones:', error);
@@ -31,24 +31,17 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
         if (habitacionesFiltradas.length > 0) {
             setHabitaciones(habitacionesFiltradas);
             setHabitacionesMostradas(habitacionesFiltradas);
-            setRotatedHabitaciones(habitacionesFiltradas);
+            setRotatedHabitaciones(shuffleArray(habitacionesFiltradas)); // Mezcla aleatoria
         } else {
             fetchHabitaciones();
         }
         fetchFavoritos();
     }, [habitacionesFiltradas, fetchHabitaciones]);
 
-    // Rotar las habitaciones cada 5 segundos
-    useEffect(() => {
-        // Reorganizamos las habitaciones una sola vez al cargar la página
-        setRotatedHabitaciones((prevHabitaciones) => {
-            if (prevHabitaciones.length > 0) {
-                const [first, ...rest] = prevHabitaciones;
-                return [...rest, first];
-            }
-            return prevHabitaciones;
-        });
-    }, []);
+    // Función para mezclar el array de manera aleatoria
+    const shuffleArray = (array) => {
+        return array.sort(() => Math.random() - 0.5);
+    };
 
     const fetchFavoritos = async () => {
         try {
