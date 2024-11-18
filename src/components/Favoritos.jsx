@@ -99,7 +99,7 @@ const Favoritos = () => {
 
                     return (
                         <div className="col-12 col-sm-6 col-md-4 mb-4" key={favorito.habitacion.id}>
-                            <div className="card h-100" style={{ border: '1px solid #ddd', borderRadius: '8px' }}>
+                            <div className="card h-100" style={{ borderRadius: '15px', overflow: 'hidden' }}>
                                 {/* Contenedor de la imagen con altura fija */}
                                 <div style={{ position: 'relative', height: '250px', overflow: 'hidden' }}>
                                     <img
@@ -122,7 +122,7 @@ const Favoritos = () => {
                                             {promedioEstrellas}
                                         </span>
                                         <div className="d-flex flex-column ms-2">
-                                            <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#6C757D' }}>
+                                        <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#6C757D' }}>
                                                 {promedioEstrellas >= 4 ? 'Excelente' : 'Buena'}
                                             </span>
                                             <span className="text-muted">
