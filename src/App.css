@@ -77,5 +77,21 @@
   
 
   
+
+
+  @keyframes rotateIn {
+    from {
+      transform: rotateY(90deg);
+      opacity: 0;
+    }
+    to {
+      transform: rotateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .rotating-card {
+    animation: rotateIn 0.5s ease-out;
+  }
   
   }
