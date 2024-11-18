@@ -190,53 +190,52 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                     const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
             
                     return (
-                        <div className="col mb-4" key={habitacion.id}>
-                            <div className="card h-100" style={{ borderRadius: '15px', overflow: 'hidden' }}>
-                                <div style={{ height: '250px', overflow: 'hidden' }}>
-                                    <img
-                                        src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
-                                        alt={habitacion.nombre}
-                                        className="img-fluid w-100"
-                                        style={{ objectFit: 'cover', height: '100%' }}
-                                    />
-                                    <button
-                                        onClick={() => toggleFavorito(habitacion.id)}
-                                        className="btn"
-                                        style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent' }}
-                                    >
-                                        <i className="fa" style={{ color: esFavorito(habitacion.id) ? 'red' : 'grey', fontSize: '24px' }}>
-                                            ♥
-                                        </i>
-                                    </button>
-                                </div>
-            
-                                <div className="card-body" style={{ padding: '15px' }}>
-                                    <h5 className="card-title">{habitacion.nombre}</h5>
-                                    <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
-                                    <div className="d-flex justify-content-start align-items-center mb-3">
-                                        <span className="badge" style={{ fontSize: '1.2rem', marginRight: '0.5rem', backgroundColor: '#28a745', color: '#fff', padding: '5px 10px' }}>
-                                            {promedioEstrellas}
+                        <div className="col-12 col-md-6 mb-4" key={habitacion.id}>
+                        <div className="card h-100 d-flex flex-row" style={{ borderRadius: '15px', overflow: 'hidden' }}>
+                            <div style={{ flex: '0 0 40%', maxHeight: '200px', overflow: 'hidden' }}>
+                                <img
+                                    src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
+                                    alt={habitacion.nombre}
+                                    className="img-fluid"
+                                    style={{ height: '100%', width: '100%', objectFit: 'cover' }}
+                                />
+                                <button
+                                    onClick={() => toggleFavorito(habitacion.id)}
+                                    className="btn"
+                                    style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent' }}
+                                >
+                                    <i className="fa" style={{ color: esFavorito(habitacion.id) ? 'red' : 'grey', fontSize: '24px' }}>
+                                        ♥
+                                    </i>
+                                </button>
+                            </div>
+                            <div className="card-body d-flex flex-column" style={{ flex: '1 0 60%', padding: '15px' }}>
+                                <h5 className="card-title">{habitacion.nombre}</h5>
+                                <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
+                                <div className="d-flex justify-content-start align-items-center mb-3">
+                                    <span className="badge" style={{ fontSize: '1.2rem', marginRight: '0.5rem', backgroundColor: '#28a745', color: '#fff', padding: '5px 10px' }}>
+                                        {promedioEstrellas}
+                                    </span>
+                                    <div className="d-flex flex-column ms-2">
+                                        <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#6C757D' }}>
+                                            {promedioEstrellas >= 4 ? 'Excelente' : 'Buena'}
                                         </span>
-                                        <div className="d-flex flex-column ms-2">
-                                            <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#6C757D' }}>
-                                                {promedioEstrellas >= 4 ? 'Excelente' : 'Buena'}
-                                            </span>
-                                            <span className="text-muted">
-                                                {cantidadOpiniones} opiniones
-                                            </span>
-                                        </div>
+                                        <span className="text-muted">
+                                            {cantidadOpiniones} opiniones
+                                        </span>
                                     </div>
-                                    <div className="d-flex justify-content-between align-items-end">
-                                        <strong style={{ fontSize: '1.4rem', color: '#333' }}>
-                                            ${habitacion.precio.toLocaleString('es-ES')} CLP
-                                        </strong>
-                                        <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
-                                            Ver Detalles
-                                        </a>
-                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-end mt-auto">
+                                    <strong style={{ fontSize: '1.4rem', color: '#333' }}>
+                                        ${habitacion.precio.toLocaleString('es-ES')} CLP
+                                    </strong>
+                                    <a href={`/habitaciones/${habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
+                                        Ver Detalles
+                                    </a>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     );
                 })}
             </div>
