@@ -256,12 +256,12 @@ const VerDetalles = () => {
                     {mensajeAlerta}
                 </Alert>
             )}
-            <div className="d-flex justify-content-between align-items-center">
-                <h2 className="text-start mb-4">{habitacion.nombre}</h2>
-                <div className="d-flex justify-content-end">
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+                <h2 className="text-start mb-2 mb-md-0">{habitacion.nombre}</h2>
+                <div className="d-flex flex-wrap justify-content-end">
                     <button
                         onClick={toggleFavorito}
-                        className="btn btn-outline-primary d-flex align-items-center"
+                        className="btn btn-outline-primary d-flex align-items-center mb-2 me-2"
                         style={{
                             borderRadius: '50px',
                             padding: '10px',
@@ -277,7 +277,7 @@ const VerDetalles = () => {
                     </button>
                     <button
                         onClick={handleContactarClick}
-                        className="btn btn-outline-primary d-flex align-items-center ms-2"
+                        className="btn btn-outline-primary d-flex align-items-center mb-2 me-2"
                         style={{ borderRadius: '50px', padding: '10px' }}
                     >
                         <i className="fab fa-whatsapp" style={{ fontSize: '24px', marginRight: '5px' }}></i>
@@ -287,7 +287,7 @@ const VerDetalles = () => {
                         href={`https://wa.me/?text=${encodeURIComponent(`Mira esta habitación: ${habitacion.nombre} - ${habitacion.descripcion}. Precio: ${habitacion.precio}. Link: ${process.env.REACT_APP_API_URL}/detalle/${habitacion.id}`)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn btn-outline-primary d-flex align-items-center ms-2"
+                        className="btn btn-outline-primary d-flex align-items-center mb-2"
                         style={{
                             borderRadius: '50px',
                             padding: '10px',
