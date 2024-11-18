@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Container, ListGroup, Nav, Navbar } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Administrador = () => {
@@ -35,76 +34,38 @@ const Administrador = () => {
     // Mostrar el panel solo si el usuario está autenticado
     return (
         <div className="container mt-5">
-            <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
-                <Container>
-                    <Navbar.Brand href="#home">Panel de Administración</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
-                            <Nav.Link as={Link} to="/admin/crearhabitacion">Crear Habitación</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/verhabitacion">Ver Habitaciones</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/crear-categoria">Crear Categoría</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/ver-categorias">Ver Categorías</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/listar-caracteristicas">Listar Características</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/crear-caracteristica">Crear Característica</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/crear-cuenta">Crear Cuenta</Nav.Link>
-                            <Nav.Link as={Link} to="/admin/listar-cuentas">Listar Cuentas</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
-
-            <Card className="p-4 shadow-lg">
-                <Card.Body>
-                    <Card.Title className="text-center">Bienvenido Administrador</Card.Title>
-                    <Card.Text>
-                        Aquí puedes acceder a todas las funciones desarrolladas para la administración de tu negocio.
-                    </Card.Text>
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <Link to="/admin/crearhabitacion" className="btn btn-outline-primary w-100">
-                                Crear Habitación
-                            </Link>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Link to="/admin/verhabitacion" className="btn btn-outline-primary w-100">
-                                Ver Habitaciones
-                            </Link>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Link to="/admin/crear-categoria" className="btn btn-outline-primary w-100">
-                                Crear Categoría
-                            </Link>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Link to="/admin/ver-categorias" className="btn btn-outline-primary w-100">
-                                Ver Categorías
-                            </Link>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Link to="/admin/listar-caracteristicas" className="btn btn-outline-primary w-100">
-                                Listar Características
-                            </Link>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Link to="/admin/crear-caracteristica" className="btn btn-outline-primary w-100">
-                                Crear Característica
-                            </Link>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Link to="/admin/crear-cuenta" className="btn btn-outline-primary w-100">
-                                Crear Cuenta
-                            </Link>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Link to="/admin/listar-cuentas" className="btn btn-outline-primary w-100">
-                                Listar Cuentas
-                            </Link>
-                        </ListGroup.Item>
-                    </ListGroup>
-                    <em className="mt-3 d-block text-muted">Nota: Esta página no es accesible desde dispositivos móviles.</em>
-                </Card.Body>
-            </Card>
+            <h1 className="text-center">Panel de Administración</h1>
+            <div className="card p-4 shadow-lg" style={{ maxWidth: '800px', margin: '0 auto' }}>
+                <h2 className="mb-4 text-center">Bienvenido Administrador</h2>
+                <p>Aquí puedes acceder a todas las funciones desarrolladas para la administración de tu negocio.</p>
+                <ul className="list-unstyled">
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/crearhabitacion">Crear Habitación</Link>
+                    </li>
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/verhabitacion">Ver Habitaciones</Link>
+                    </li>
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/crear-categoria">Crear Categoría</Link>
+                    </li>
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/ver-categorias">Ver Categorías</Link>
+                    </li>
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/crear-cuenta">Crear Cuenta</Link>
+                    </li>
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/ver-cuentas">Listar Cuentas</Link>
+                    </li>
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/crear-caracteristica">Crear Característica</Link>
+                    </li>
+                    <li>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/ver-caracteristicas">Listar Características</Link>
+                    </li>
+                </ul>
+                <em>Nota: Esta página no es accesible desde dispositivos móviles.</em>
+            </div>
         </div>
     );
 };
