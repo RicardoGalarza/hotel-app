@@ -98,8 +98,8 @@ const Favoritos = () => {
                     const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[favorito.habitacion.id] || { promedioEstrellas: 0, cantidadOpiniones: 0 };
 
                     return (
-                        <div className="col-12 col-sm-6 col-md-4 mb-4" key={favorito.habitacion.id}>
-                            <div className="card h-100">
+                        <div className="col-12 col-sm-6 mb-4" key={favorito.habitacion.id}>
+                            <div className="card h-100 border rounded">
                                 {/* Contenedor de la imagen con altura fija */}
                                 <div style={{ position: 'relative', height: '250px', overflow: 'hidden' }}>
                                     <img
@@ -137,7 +137,7 @@ const Favoritos = () => {
 
                                     <div className="d-flex justify-content-between align-items-end mt-3">
                                         <strong style={{ fontSize: '1.4rem', color: '#333' }}>
-                                            USD {favorito.habitacion.precio}
+                                            USD {new Intl.NumberFormat().format(favorito.habitacion.precio)}
                                         </strong>
                                         <a href={`/habitaciones/${favorito.habitacion.id}`} className="btn btn-primary btn-sm">
                                             Ver detalles
@@ -158,6 +158,7 @@ const Favoritos = () => {
                 </Pagination>
             </div>
         </div>
+
     );
 };
 
