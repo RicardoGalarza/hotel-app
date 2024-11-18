@@ -80,7 +80,7 @@ const HeaderAdmin = () => {
     <header className="bg-dark text-white py-3">
       <div className="container d-flex justify-content-between align-items-center">
       <h1>
-                <Link to="/admin" style={{ color: 'inherit', textDecoration: 'none' }}>Admin</Link>
+                <Link to="/administracion" style={{ color: 'inherit', textDecoration: 'none' }}>Admin</Link>
             </h1>
 
         <nav className="d-flex">
