@@ -80,7 +80,7 @@ const HeaderAdmin = () => {
   return (
     <header className="bg-dark text-white py-3">
       <div className="container d-flex justify-content-between align-items-center">
-        <h1>Admin</h1>
+      <h1 onClick={handleRedirect} style={{ cursor: 'pointer' }}>Admin</h1>
 
         <nav className="d-flex">
         {/* Botones de Cuentas */}

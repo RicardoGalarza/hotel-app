@@ -34,7 +34,7 @@ const Administrador = () => {
     // Mostrar el panel solo si el usuario está autenticado
     return (
         <div className="container mt-5">
-            <h1 className="text-center">Panel de Administración</h1>
+           
             <div className="card p-4 shadow-lg" style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <h2 className="mb-4 text-center">Bienvenido Administrador</h2>
                 <p>Aquí puedes acceder a todas las funciones desarrolladas para la administración de tu negocio.</p>
@@ -55,7 +55,7 @@ const Administrador = () => {
                         <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/crear-cuenta">Crear Cuenta</Link>
                     </li>
                     <li>
-                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/ver-cuentas">Listar Cuentas</Link>
+                        <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/listar-cuentas">Listar Cuentas</Link>
                     </li>
                     <li>
                         <Link className="btn btn-outline-primary mb-2 w-100" to="/admin/crear-caracteristica">Crear Característica</Link>
