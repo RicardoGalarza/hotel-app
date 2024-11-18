@@ -306,7 +306,7 @@ const EditarHabitacion = () => {
                         {imagenesPrecargadas.map((imagen, index) => (
                             <div key={index} className="m-2 position-relative">
                                 <img
-                                    src={`https://storage.googleapis.com/habitaciones/${imagen.nombre}`}
+                                    src={`https://storage.googleapis.com/habitaciones/${imagen.url}`}
                                     alt={`Imagen ${index + 1}`}
                                     style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                                 />
