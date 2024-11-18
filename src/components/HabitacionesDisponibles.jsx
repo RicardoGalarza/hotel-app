@@ -8,7 +8,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-    const habitacionesPorPagina = 10;
+    const habitacionesPorPagina = 4; // Para mostrar 2 filas de 2 columnas
     const [favoritos, setFavoritos] = useState([]);
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
@@ -190,9 +190,9 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                         const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[habitacion.id] || { promedioEstrellas: '0', cantidadOpiniones: 0 };
 
                         return (
-                            <div className="col-12 mb-4" key={habitacion.id}>
+                            <div className="col-12 col-md-6 mb-4" key={habitacion.id}>
                                 <div className="card h-100 d-flex flex-row" style={{ borderRadius: '15px', overflow: 'hidden' }}>
-                                    <div style={{ flex: '1 0 40%', height: '250px', overflow: 'hidden', position: 'relative' }}>
+                                    <div style={{ flex: '1 0 40%', height: 'auto', overflow: 'hidden' }}>
                                         <img
                                             src={`https://storage.googleapis.com/habitaciones/${habitacion.imagenes[0].url}`}
                                             alt={habitacion.nombre}
@@ -209,7 +209,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                             </i>
                                         </button>
                                     </div>
-
                                     <div className="card-body" style={{ flex: '1 0 60%', padding: '15px' }}>
                                         <h5 className="card-title">{habitacion.nombre}</h5>
                                         <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{habitacion.descripcion}</p>
