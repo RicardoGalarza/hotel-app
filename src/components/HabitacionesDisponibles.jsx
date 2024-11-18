@@ -8,7 +8,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [habitacionesMostradas, setHabitacionesMostradas] = useState([]);
     const [opinionesPorHabitacion, setOpinionesPorHabitacion] = useState({});
     const [currentPage, setCurrentPage] = useState(1);
-    const habitacionesPorPagina = 10; // Mantener 10 habitaciones por página para ajustar 2 filas con 5 columnas cada una
+    const habitacionesPorPagina = 4; // Cambiar a 4 para mostrar dos filas de dos columnas
     const [favoritos, setFavoritos] = useState([]);
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
@@ -182,7 +182,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
             </div>
 
             {habitacionesPaginadas.length > 0 ? (
-                <div className="row row-cols-1 row-cols-md-5">
+                <div className="row row-cols-1 row-cols-md-2">
                     {habitacionesPaginadas.map((habitacion) => {
                         if (!habitacion || !habitacion.imagenes || habitacion.imagenes.length === 0) {
                             return null; // Evitar el error si habitacion es undefined o no tiene imagenes
