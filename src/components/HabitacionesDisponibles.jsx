@@ -13,7 +13,6 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     const [favoritos, setFavoritos] = useState([]);
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
     const [sugerencias, setSugerencias] = useState([]);
-    const [resultadosFiltrados, setResultadosFiltrados] = useState([]);
     const navigate = useNavigate();
 
     const fetchHabitaciones = useCallback(async () => {
@@ -76,21 +75,12 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
     };
 
     const handleBusquedaChange = async (e) => {
-        const valor = e.target.value.toLowerCase();
-        setTerminoBusqueda(valor);
+        const termino = e.target.value.trim();
+        setTerminoBusqueda(termino);
 
-        // Filtrado de resultados por nombre o ciudad si tienes la lista localmente
-        const resultados = habitaciones.filter((habitacion) =>
-            habitacion.nombre.toLowerCase().includes(valor) ||
-            habitacion.ciudad.toLowerCase().includes(valor)
-        );
-        setResultadosFiltrados(resultados);
-
-
-        if (valor.length > 0) {
+        if (termino.length > 0) {
             try {
-                // Solicitud de ciudad a la API
-                const ciudadResponse = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades?nombre=${valor}`);
+                const ciudadResponse = await axios.get(`${process.env.REACT_APP_API_URL}/ciudades?nombre=${termino}`);
                 if (ciudadResponse.data && ciudadResponse.data.length > 0) {
                     const ciudadId = ciudadResponse.data[0].id;
                     const habitacionesPorCiudad = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/ciudad/${ciudadId}`);
@@ -98,7 +88,7 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                     setRotatedHabitaciones(habitacionesPorCiudad.data);
                     setSugerencias(habitacionesPorCiudad.data);
                 } else {
-                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${valor}`);
+                    const response = await axios.get(`${process.env.REACT_APP_API_URL}/habitaciones/buscar?busqueda=${termino}`);
                     if (response.data && response.data.length > 0) {
                         setHabitacionesMostradas(response.data);
                         setRotatedHabitaciones(response.data);
@@ -191,9 +181,13 @@ const HabitacionesDisponibles = ({ habitacionesFiltradas = [] }) => {
                                 zIndex: 1050,
                             }}
                         >
-                            {resultadosFiltrados.map((habitacion) => (
-                                <li key={habitacion.id}>
-                                    {habitacion.nombre} - {habitacion.ciudad}
+                            {sugerencias.map((habitacion) => (
+                                <li
+                                    key={habitacion.id}
+                                    className="dropdown-item"
+                                    onClick={() => handleSugerenciaClick(habitacion)}
+                                >
+                                    {habitacion.nombre}
                                 </li>
                             ))}
                         </ul>
