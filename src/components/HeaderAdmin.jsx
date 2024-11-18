@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 const HeaderAdmin = () => {
   const navigate = useNavigate();
   const [permissions, setPermissions] = useState([]);
