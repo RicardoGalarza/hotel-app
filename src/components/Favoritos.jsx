@@ -98,27 +98,32 @@ const Favoritos = () => {
                     const { promedioEstrellas, cantidadOpiniones } = opinionesPorHabitacion[favorito.habitacion.id] || { promedioEstrellas: 0, cantidadOpiniones: 0 };
 
                     return (
-                        <div className="col-12 col-sm-6 col-md-4 mb-4" key={favorito.habitacion.id}>
-                            <div className="card h-100">
+                        <div className="col-md-6 mb-4" key={favorito.habitacion.id}>
+                            <div className="card h-100 shadow-sm" style={{ borderRadius: '15px', overflow: 'hidden' }}>
                                 {/* Contenedor de la imagen con altura fija */}
-                                <div style={{ position: 'relative', height: '250px', overflow: 'hidden' }}>
+                                <div
+                                    style={{
+                                        flex: '1 0 40%',
+                                        height: '250px',
+                                        overflow: 'hidden',
+                                        position: 'relative'
+                                    }}
+                                >
                                     <img
                                         src={`https://storage.googleapis.com/habitaciones/${favorito.habitacion.imagenes[0].url}`}
                                         alt={favorito.habitacion.nombre}
                                         className="img-fluid"
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        style={{ height: '100%', width: '100%', objectFit: 'cover' }}
                                     />
                                 </div>
 
                                 {/* Contenido de la tarjeta */}
-                                <div className="card-body d-flex flex-column justify-content-between">
-                                    <h5 className="card-title text-truncate">{favorito.habitacion.nombre}</h5>
-                                    <p className="card-text text-truncate" style={{ maxHeight: '60px' }}>
-                                        {favorito.habitacion.descripcion}
-                                    </p>
+                                <div className="card-body" style={{ flex: '1 0 60%', padding: '15px', overflow: 'hidden', height: '250px' }}>
+                                    <h5 className="card-title">{favorito.habitacion.nombre}</h5>
+                                    <p className="card-text" style={{ maxHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis' }}>{favorito.habitacion.descripcion}</p>
 
                                     <div className="d-flex justify-content-start align-items-center mb-3">
-                                        <span className="badge bg-success" style={{ fontSize: '1.2rem', marginRight: '0.5rem' }}>
+                                        <span className="badge" style={{ fontSize: '1.2rem', marginRight: '0.5rem', backgroundColor: '#28a745', color: '#fff', padding: '5px 10px' }}>
                                             {promedioEstrellas}
                                         </span>
                                         <div className="d-flex flex-column ms-2">
@@ -131,15 +136,15 @@ const Favoritos = () => {
                                         </div>
                                     </div>
 
-                                    <button onClick={() => toggleFavorito(favorito.habitacion.id)} className="btn p-0" style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent' }}>
+                                    <button onClick={() => toggleFavorito(favorito.habitacion.id)} className="btn" style={{ position: 'absolute', top: '10px', right: '10px', background: 'transparent' }}>
                                         <i className="fa" style={{ color: esFavorito(favorito.habitacion.id) ? 'red' : 'grey', fontSize: '24px' }}>❤</i>
                                     </button>
 
-                                    <div className="d-flex justify-content-between align-items-end mt-3">
+                                    <div className="d-flex justify-content-between align-items-end">
                                         <strong style={{ fontSize: '1.4rem', color: '#333' }}>
-                                            USD {favorito.habitacion.precio}
+                                            USD {favorito.habitacion.precio.toLocaleString('en-US')}
                                         </strong>
-                                        <a href={`/habitaciones/${favorito.habitacion.id}`} className="btn btn-primary btn-sm">
+                                        <a href={`/habitaciones/${favorito.habitacion.id}`} className="btn btn-primary" style={{ borderRadius: '10px', padding: '5px 15px' }}>
                                             Ver detalles
                                         </a>
                                     </div>
