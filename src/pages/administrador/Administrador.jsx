@@ -34,7 +34,7 @@ const Administrador = () => {
     // Mostrar el panel solo si el usuario está autenticado
     return (
         <div className="container mt-5">
-           
+
             <div className="card p-4 shadow-lg" style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <h2 className="mb-4 text-center">Bienvenido Administrador</h2>
                 <p>Aquí puedes acceder a todas las funciones desarrolladas para la administración de tu negocio.</p>
